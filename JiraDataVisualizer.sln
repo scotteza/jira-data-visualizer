@@ -3,9 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraDataVisualizer", "JiraDataVisualizer\JiraDataVisualizer.csproj", "{CB35D8FA-93F8-442B-AAA5-3E73B884423B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JiraDataVisualizer", "JiraDataVisualizer\JiraDataVisualizer.csproj", "{CB35D8FA-93F8-442B-AAA5-3E73B884423B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraDataVisualizer.Test", "JiraDataVisualizer.Test\JiraDataVisualizer.Test.csproj", "{5EF1904D-0541-4747-B0F5-C90A368DD231}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JiraDataVisualizer.Test", "JiraDataVisualizer.Test\JiraDataVisualizer.Test.csproj", "{5EF1904D-0541-4747-B0F5-C90A368DD231}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraDataFetcher", "JiraDataFetcher\JiraDataFetcher.csproj", "{8FEC45D4-C181-4DB3-9422-7B26CAA889E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraDataFetcher.Test", "JiraDataFetcher.Test\JiraDataFetcher.Test.csproj", "{C4A7DC24-ED69-445F-8611-46266AF69007}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpWrapper", "HttpWrapper\HttpWrapper.csproj", "{264870A4-9E5A-48FF-A704-D7849A6FDE92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpWrapper.Test", "HttpWrapper.Test\HttpWrapper.Test.csproj", "{1C21CFB8-0917-4155-B69B-97DAB8E42124}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +29,22 @@ Global
 		{5EF1904D-0541-4747-B0F5-C90A368DD231}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EF1904D-0541-4747-B0F5-C90A368DD231}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EF1904D-0541-4747-B0F5-C90A368DD231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FEC45D4-C181-4DB3-9422-7B26CAA889E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FEC45D4-C181-4DB3-9422-7B26CAA889E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FEC45D4-C181-4DB3-9422-7B26CAA889E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FEC45D4-C181-4DB3-9422-7B26CAA889E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4A7DC24-ED69-445F-8611-46266AF69007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4A7DC24-ED69-445F-8611-46266AF69007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4A7DC24-ED69-445F-8611-46266AF69007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4A7DC24-ED69-445F-8611-46266AF69007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{264870A4-9E5A-48FF-A704-D7849A6FDE92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{264870A4-9E5A-48FF-A704-D7849A6FDE92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{264870A4-9E5A-48FF-A704-D7849A6FDE92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{264870A4-9E5A-48FF-A704-D7849A6FDE92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C21CFB8-0917-4155-B69B-97DAB8E42124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C21CFB8-0917-4155-B69B-97DAB8E42124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C21CFB8-0917-4155-B69B-97DAB8E42124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C21CFB8-0917-4155-B69B-97DAB8E42124}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
