@@ -1,3 +1,3 @@
-# Jira Data Visualiser
+# Jira Data Visualizer
 
-Seeing if I can visualise Jira project dependencies using Graphviz.
+Seeing if I can visualize Jira project dependencies using Graphviz.
