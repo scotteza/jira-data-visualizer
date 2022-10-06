@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace JiraDataFetcher;
 
-public class DataFetcher
+public class DataFetcher : IDataFetcher
 {
     private readonly IHttpGetter _httpGetter;
     private readonly string _jiraDomain;

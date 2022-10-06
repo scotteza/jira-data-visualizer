@@ -7,13 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JiraDataVisualizer", "JiraD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JiraDataVisualizer.Test", "JiraDataVisualizer.Test\JiraDataVisualizer.Test.csproj", "{5EF1904D-0541-4747-B0F5-C90A368DD231}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraDataFetcher", "JiraDataFetcher\JiraDataFetcher.csproj", "{8FEC45D4-C181-4DB3-9422-7B26CAA889E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JiraDataFetcher", "JiraDataFetcher\JiraDataFetcher.csproj", "{8FEC45D4-C181-4DB3-9422-7B26CAA889E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraDataFetcher.Test", "JiraDataFetcher.Test\JiraDataFetcher.Test.csproj", "{C4A7DC24-ED69-445F-8611-46266AF69007}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JiraDataFetcher.Test", "JiraDataFetcher.Test\JiraDataFetcher.Test.csproj", "{C4A7DC24-ED69-445F-8611-46266AF69007}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpWrapper", "HttpWrapper\HttpWrapper.csproj", "{264870A4-9E5A-48FF-A704-D7849A6FDE92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpWrapper", "HttpWrapper\HttpWrapper.csproj", "{264870A4-9E5A-48FF-A704-D7849A6FDE92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpWrapper.Test", "HttpWrapper.Test\HttpWrapper.Test.csproj", "{1C21CFB8-0917-4155-B69B-97DAB8E42124}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpWrapper.Test", "HttpWrapper.Test\HttpWrapper.Test.csproj", "{1C21CFB8-0917-4155-B69B-97DAB8E42124}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraDataVisualizer.Console", "JiraDataVisualizer.Console\JiraDataVisualizer.Console.csproj", "{6503C897-FB67-42D8-989F-DBCB7D7F66A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{1C21CFB8-0917-4155-B69B-97DAB8E42124}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C21CFB8-0917-4155-B69B-97DAB8E42124}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C21CFB8-0917-4155-B69B-97DAB8E42124}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6503C897-FB67-42D8-989F-DBCB7D7F66A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6503C897-FB67-42D8-989F-DBCB7D7F66A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6503C897-FB67-42D8-989F-DBCB7D7F66A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6503C897-FB67-42D8-989F-DBCB7D7F66A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
