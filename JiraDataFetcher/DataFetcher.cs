@@ -18,7 +18,7 @@ public class DataFetcher : IDataFetcher
         _password = password;
     }
 
-    public async Task<JiraIssue?> FetchIssue(string key)
+    public async Task<JiraIssue> FetchIssue(string key)
     {
         var response = await _httpGetter.GetWithBasicAuthentication(
             $"https://{_jiraDomain}.atlassian.net",
@@ -28,6 +28,11 @@ public class DataFetcher : IDataFetcher
 
         var jiraIssue = JsonSerializer.Deserialize<JiraIssue>(response);
 
-        return jiraIssue;
+        return jiraIssue ?? throw new InvalidOperationException("Deserialized Jira issue was null");
+    }
+
+    public async Task<JiraIssueSearchResult> SearchIssues()
+    {
+        throw new NotImplementedException();
     }
 }

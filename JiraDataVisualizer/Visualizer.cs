@@ -5,14 +5,17 @@ namespace JiraDataVisualizer;
 public class Visualizer
 {
     private readonly IDataFetcher _dataFetcher;
+    private readonly IDataPainter _dataPainter;
 
-    public Visualizer(IDataFetcher dataFetcher)
+    public Visualizer(IDataFetcher dataFetcher, IDataPainter dataPainter)
     {
         _dataFetcher = dataFetcher;
+        _dataPainter = dataPainter;
     }
 
-    public bool Visualize()
+    public async Task Visualize()
     {
-        return true;
+        var issues = await _dataFetcher.SearchIssues();
+        _dataPainter.PaintData(issues.GetIssues());
     }
 }

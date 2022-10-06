@@ -10,7 +10,7 @@ internal class DataFetcherShould
     public async Task Fetch_A_Jira_Issue()
     {
         var httpGetter = new Mock<IHttpGetter>(MockBehavior.Strict);
-        var httpResult = GetRealisticJiraHttpResponse();
+        var httpResult = GetRealisticJiraSingleIssueHttpResponse();
         httpGetter.Setup(x => x.GetWithBasicAuthentication(
             "https://my-jira-domain.atlassian.net",
             "/rest/api/3/issue/PROJ-1234",
@@ -35,7 +35,37 @@ internal class DataFetcherShould
         Assert.That(result?.Key, Is.EqualTo("PROJ-1234"));
     }
 
-    private string GetRealisticJiraHttpResponse()
+    [Test]
+    public async Task Search_For_Jira_Issues()
+    {
+        var httpGetter = new Mock<IHttpGetter>(MockBehavior.Strict);
+        var httpResult = GetRealisticJiraSearchHttpResponse();
+        httpGetter.Setup(x => x.GetWithBasicAuthentication(
+                "https://my-jira-domain.atlassian.net",
+                "/rest/api/3/search",
+                "username",
+                "password"))
+            .Returns(Task.FromResult(httpResult));
+
+
+        var dataFetcher = new DataFetcher(httpGetter.Object, "my-jira-domain", "username", "password");
+
+
+        var result = await dataFetcher.SearchIssues();
+
+
+        httpGetter.Verify(x => x.GetWithBasicAuthentication(
+            "https://my-jira-domain.atlassian.net",
+            "/rest/api/3/search",
+            "username",
+            "password"), Times.Once);
+
+        Assert.NotNull(result);
+        var issues = result?.GetIssues();
+        Assert.That(issues!.Count, Is.EqualTo(58));
+    }
+
+    private string GetRealisticJiraSingleIssueHttpResponse()
     {
         return @"{
     ""expand"": ""renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations,customfield_10010.requestTypePractice"",
@@ -215,5 +245,10 @@ internal class DataFetcherShould
         }
     }
 }";
+    }
+
+    private string GetRealisticJiraSearchHttpResponse()
+    {
+        return "";
     }
 }
