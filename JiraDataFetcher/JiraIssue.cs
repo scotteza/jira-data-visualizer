@@ -7,8 +7,12 @@ public class JiraIssue
     [JsonPropertyName("key")]
     public string Key { get; }
 
-    public JiraIssue(string key)
+    [JsonPropertyName("fields")]
+    public JiraIssueFields Fields { get; }
+
+    public JiraIssue(string key, JiraIssueFields fields)
     {
         Key = key;
+        Fields = fields;
     }
 }

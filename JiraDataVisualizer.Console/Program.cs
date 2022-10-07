@@ -16,8 +16,10 @@ internal class Program
         var dataFetcher = new DataFetcher(new HttpGetter(), jiraDomain, username, password);
         var dataPainter = new GraphVizDataPainter();
 
+        var issue = await dataFetcher.FetchIssue(issueKey);
+
         var visualizer = new Visualizer(dataFetcher, dataPainter);
 
-        visualizer.Visualize();
+        await visualizer.Visualize();
     }
 }

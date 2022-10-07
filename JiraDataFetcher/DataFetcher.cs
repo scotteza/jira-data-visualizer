@@ -22,7 +22,7 @@ public class DataFetcher : IDataFetcher
     {
         var response = await _httpGetter.GetWithBasicAuthentication(
             $"https://{_jiraDomain}.atlassian.net",
-            $"/rest/api/3/issue/{key}",
+            $"/rest/api/3/issue/{key}?fields=key,summary",
             _username,
             _password);
 
