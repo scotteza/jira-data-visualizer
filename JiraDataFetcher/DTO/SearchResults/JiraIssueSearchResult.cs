@@ -1,4 +1,4 @@
-﻿namespace JiraDataFetcher;
+﻿namespace JiraDataFetcher.DTO.SearchResults;
 
 public class JiraIssueSearchResult
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace JiraDataFetcher;
+namespace JiraDataFetcher.DTO;
 
 public class JiraIssueParentEpic
 {

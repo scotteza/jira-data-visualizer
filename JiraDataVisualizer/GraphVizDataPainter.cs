@@ -1,4 +1,4 @@
-﻿using JiraDataFetcher;
+﻿using JiraDataFetcher.DTO;
 
 namespace JiraDataVisualizer;
 

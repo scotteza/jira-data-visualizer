@@ -1,4 +1,6 @@
 ﻿using JiraDataFetcher;
+using JiraDataFetcher.DTO;
+using JiraDataFetcher.DTO.SearchResults;
 using Moq;
 using NUnit.Framework;
 

@@ -1,4 +1,7 @@
-﻿namespace JiraDataFetcher;
+﻿using JiraDataFetcher.DTO;
+using JiraDataFetcher.DTO.SearchResults;
+
+namespace JiraDataFetcher;
 
 public interface IDataFetcher
 {
