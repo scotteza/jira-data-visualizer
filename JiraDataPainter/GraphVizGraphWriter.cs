@@ -8,7 +8,7 @@ public class GraphVizGraphWriter : IGraphVizGraphWriter
         File.WriteAllText(graphVizPath, graphData);
 
         var fullBatchPath = new FileInfo("./generate-output.bat").FullName;
-        File.WriteAllText(fullBatchPath, @"dot -Tpng input.dot > output.png
+        File.WriteAllText(fullBatchPath, @"dot -Tpng -Gdpi=150 input.dot > output.png
 code output.png");
 
         System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{fullBatchPath}\"");
