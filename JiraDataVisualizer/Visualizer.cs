@@ -13,9 +13,9 @@ public class Visualizer
         _dataPainter = dataPainter;
     }
 
-    public async Task Visualize()
+    public async Task Visualize(string projectName)
     {
-        var issues = await _dataFetcher.SearchIssues();
+        var issues = await _dataFetcher.SearchIssues(projectName, 50);
         _dataPainter.PaintData(issues.GetIssues());
     }
 }

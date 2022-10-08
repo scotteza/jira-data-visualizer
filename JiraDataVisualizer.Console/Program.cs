@@ -12,6 +12,7 @@ internal class Program
         var username = fileLines[1];
         var password = fileLines[2];
         var issueKey = fileLines[3];
+        var projectName = fileLines[4];
 
         var dataFetcher = new DataFetcher(new HttpGetter(), jiraDomain, username, password);
         var dataPainter = new GraphVizDataPainter();
@@ -20,6 +21,6 @@ internal class Program
 
         var visualizer = new Visualizer(dataFetcher, dataPainter);
 
-        await visualizer.Visualize();
+        await visualizer.Visualize(projectName);
     }
 }

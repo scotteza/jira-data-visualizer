@@ -24,12 +24,12 @@ internal class VisualizerShould
     {
         var issues = new List<JiraIssue>().AsReadOnly();
         var searchResult = new JiraIssueSearchResult(issues);
-        _dataFetcher.Setup(x => x.SearchIssues()).Returns(Task.FromResult(searchResult));
+        _dataFetcher.Setup(x => x.SearchIssues("PROJ", 50)).Returns(Task.FromResult(searchResult));
 
         _dataPainter.Setup(x => x.PaintData(issues));
 
 
-        await _visualizer.Visualize();
+        await _visualizer.Visualize("PROJ");
 
 
         _dataPainter.Verify(x => x.PaintData(issues));
