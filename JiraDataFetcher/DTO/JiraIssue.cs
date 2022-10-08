@@ -10,9 +10,18 @@ public class JiraIssue
     // TODO: it would be nice if this property wasn't public
     [JsonPropertyName("fields")]
     public JiraIssueFields? Fields { get; }
-    public string Summary => Fields != null ? Fields.Summary : "";
 
-    public string ParentEpicKey => Fields != null && Fields.ParentEpic != null ? Fields.ParentEpic.Key : "";
+    public string Summary => Fields != null
+                                ? Fields.Summary
+                                : "";
+
+    public string ParentEpicKey => Fields?.ParentEpic != null
+                                    ? Fields.ParentEpic.Key
+                                    : "";
+
+    public string IssueType => Fields?.IssueType != null
+                                    ? Fields.IssueType.Name
+                                    : "";
 
     public JiraIssue(string key, JiraIssueFields fields)
     {

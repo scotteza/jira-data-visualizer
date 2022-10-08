@@ -26,6 +26,7 @@ internal class DataFetcherShould
         Assert.That(result.Key, Is.EqualTo("PROJ-1"));
         Assert.That(result.Summary, Is.EqualTo("Testing 123 Task Without Epic"));
         Assert.That(result.ParentEpicKey, Is.Empty);
+        Assert.That(result.IssueType, Is.EqualTo("Task"));
     }
 
     private string GetRealisticJiraSingleIssueWithoutEpicHttpResponse()
@@ -74,6 +75,7 @@ internal class DataFetcherShould
         Assert.That(result.Key, Is.EqualTo("PROJ-5"));
         Assert.That(result.Summary, Is.EqualTo("Task in epic"));
         Assert.That(result.ParentEpicKey, Is.EqualTo("PROJ-4"));
+        Assert.That(result.IssueType, Is.EqualTo("Task"));
     }
 
     private string GetRealisticJiraSingleIssueWithEpicHttpResponse()
@@ -162,6 +164,42 @@ internal class DataFetcherShould
 
         var issues = result.GetIssues();
         Assert.That(issues!.Count, Is.EqualTo(7));
+
+        Assert.That(issues[0].Key,Is.EqualTo("PROJ-1"));
+        Assert.That(issues[0].Summary,Is.EqualTo("Testing 123 Task Without Epic"));
+        Assert.That(issues[0].ParentEpicKey,Is.Empty);
+        Assert.That(issues[0].IssueType,Is.EqualTo("Task"));
+
+        Assert.That(issues[1].Key,Is.EqualTo("PROJ-2"));
+        Assert.That(issues[1].Summary,Is.EqualTo("Testing 123 Bug Without Epic"));
+        Assert.That(issues[1].ParentEpicKey,Is.Empty);
+        Assert.That(issues[1].IssueType,Is.EqualTo("Bug"));
+
+        Assert.That(issues[2].Key,Is.EqualTo("PROJ-3"));
+        Assert.That(issues[2].Summary,Is.EqualTo("Testing 123 Story Without Epic"));
+        Assert.That(issues[2].ParentEpicKey,Is.Empty);
+        Assert.That(issues[2].IssueType,Is.EqualTo("Story"));
+
+        Assert.That(issues[3].Key,Is.EqualTo("PROJ-4"));
+        Assert.That(issues[3].Summary,Is.EqualTo("Big important epic"));
+        Assert.That(issues[3].ParentEpicKey,Is.Empty);
+        Assert.That(issues[3].IssueType,Is.EqualTo("Epic"));
+
+        Assert.That(issues[4].Key,Is.EqualTo("PROJ-5"));
+        Assert.That(issues[4].Summary,Is.EqualTo("Task in epic"));
+        Assert.That(issues[4].ParentEpicKey,Is.EqualTo("PROJ-4"));
+        Assert.That(issues[4].IssueType,Is.EqualTo("Task"));
+
+        Assert.That(issues[5].Key,Is.EqualTo("PROJ-6"));
+        Assert.That(issues[5].Summary,Is.EqualTo("Bug in epic"));
+        Assert.That(issues[5].ParentEpicKey,Is.EqualTo("PROJ-4"));
+        Assert.That(issues[5].IssueType,Is.EqualTo("Bug"));
+
+        Assert.That(issues[6].Key,Is.EqualTo("PROJ-7"));
+        Assert.That(issues[6].Summary,Is.EqualTo("Story in epic"));
+        Assert.That(issues[6].ParentEpicKey, Is.EqualTo("PROJ-4"));
+        Assert.That(issues[6].IssueType,Is.EqualTo("Story"));
+
     }
 
     private string GetRealisticJiraSearchHttpResponse_Page1()
