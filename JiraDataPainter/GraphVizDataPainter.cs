@@ -1,10 +1,10 @@
 ﻿using JiraDataFetcher.DTO;
 
-namespace JiraDataVisualizer;
+namespace JiraDataPainter;
 
 public class GraphVizDataPainter : IDataPainter
 {
-    public void PaintData(IReadOnlyList<JiraIssue> getIssues)
+    public void PaintData(IReadOnlyList<JiraIssue> issues)
     {
         throw new NotImplementedException();
     }

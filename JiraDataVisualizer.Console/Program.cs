@@ -1,5 +1,6 @@
 ﻿using HttpWrapper;
 using JiraDataFetcher;
+using JiraDataPainter;
 
 namespace JiraDataVisualizer.Console;
 

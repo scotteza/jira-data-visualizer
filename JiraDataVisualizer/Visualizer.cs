@@ -1,4 +1,5 @@
 ﻿using JiraDataFetcher;
+using JiraDataPainter;
 
 namespace JiraDataVisualizer;
 
