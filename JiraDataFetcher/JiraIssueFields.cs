@@ -7,8 +7,13 @@ public class JiraIssueFields
     [JsonPropertyName("summary")]
     public string Summary { get; }
 
-    public JiraIssueFields(string summary)
+    // TODO: it would be nice if this property wasn't public
+    [JsonPropertyName("parent")]
+    public JiraIssueParentEpic? ParentEpic { get; }
+
+    public JiraIssueFields(string summary, JiraIssueParentEpic parentEpic)
     {
         Summary = summary;
+        ParentEpic = parentEpic;
     }
 }

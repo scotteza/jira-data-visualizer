@@ -12,15 +12,11 @@ public class JiraIssue
     public JiraIssueFields? Fields { get; }
     public string Summary => Fields != null ? Fields.Summary : "";
 
-    // TODO: it would be nice if this property wasn't public
-    [JsonPropertyName("parent")]
-    public JiraIssueParentEpic? ParentEpic { get; }
-    public string ParentEpicKey => ParentEpic != null ? ParentEpic.Key : "";
+    public string ParentEpicKey => Fields != null && Fields.ParentEpic != null ? Fields.ParentEpic.Key : "";
 
-    public JiraIssue(string key, JiraIssueFields fields, JiraIssueParentEpic parentEpic)
+    public JiraIssue(string key, JiraIssueFields fields)
     {
         Key = key;
         Fields = fields;
-        ParentEpic = parentEpic;
     }
 }
