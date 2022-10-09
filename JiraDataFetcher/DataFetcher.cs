@@ -24,7 +24,7 @@ public class DataFetcher : IDataFetcher
     {
         var response = await _httpGetter.GetWithBasicAuthentication(
             $"https://{_jiraDomain}.atlassian.net",
-            $"/rest/api/3/issue/{key}?fields=key,summary,issuetype,parent",
+            $"/rest/api/3/issue/{key}?fields=key,summary,issuetype,parent,issuelinks,status",
             _username,
             _password);
 
@@ -43,7 +43,7 @@ public class DataFetcher : IDataFetcher
         {
             var response = await _httpGetter.GetWithBasicAuthentication(
                 $"https://{_jiraDomain}.atlassian.net",
-                $"/rest/api/3/search?jql=project={projectName}+order+by+key+ASC&fields=key,summary,issuetype,parent&maxResults={resultsPerPage}&startAt={startAt}",
+                $"/rest/api/3/search?jql=project={projectName}+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults={resultsPerPage}&startAt={startAt}",
                 _username,
                 _password);
 
