@@ -178,6 +178,35 @@ internal class DataFetcherShould
 
 
 
+    [Ignore("To implement next - need to add multiple blockers to collection data")]
+    [Test]
+    public void Fetch_An_Issue_That_Blocks_Others()
+    {
+        
+    }
+
+    private string GetRealisticJiraBlockerIssueHttpResponse()
+    {
+        return @"";
+    }
+
+
+
+
+    [Ignore("To implement next - need to add multiple blockers to collection data")]
+    [Test]
+    public void Fetch_A_Blocked_Issue()
+    {
+        
+    }
+
+    private string GetRealisticJiraBlockedIssueHttpResponse()
+    {
+        return @"";
+    }
+
+
+
     // TODO: add links and status checks to tickets
     [Test]
     public async Task Search_For_Jira_Issues()
