@@ -37,7 +37,7 @@ public class GraphVizDataPainter : IDataPainter
 
             PaintEpicSubIssues(issues, sb, epic);
 
-            sb.AppendLine($"\t\tlabel = \"{epic.Key}\";");
+            sb.AppendLine($"\t\tlabel = \"{epic.Key} - {epic.Summary}\";");
             sb.AppendLine("\t}");
 
             subGraphClusterIndex++;
@@ -46,30 +46,36 @@ public class GraphVizDataPainter : IDataPainter
 
     private void PaintEpicSubIssues(IReadOnlyList<JiraIssue> issues, StringBuilder sb, JiraIssue epic)
     {
-        var Issues = issues.Where(x => x.ParentEpicKey.Equals(epic.Key)).OrderBy(x => x.Key);
-        foreach (var issue in Issues)
+        var issuesForEpic = issues.Where(x => x.ParentEpicKey.Equals(epic.Key)).OrderBy(x => x.Key);
+        foreach (var issue in issuesForEpic)
         {
-            var nodeKey = GetNodeKey(issue);
-            sb.AppendLine($"\t\t{nodeKey} [shape=\"rectangle\" style=\"filled\" fillcolor=\"{GetFillColorForStatus(issue.Status)}\" label=\"{issue.IssueType}: {issue.Summary}\"];");
+            var graphVizStringForIssue = GetGraphVizStringForIssue(issue);
+            sb.AppendLine($"\t\t{graphVizStringForIssue}");
         }
     }
 
     private void PaintEpiclessIssues(IReadOnlyList<JiraIssue> issues, StringBuilder sb)
     {
-        var Issues =
+        var epiclessIssues =
             issues.Where(x => string.IsNullOrWhiteSpace(x.ParentEpicKey) && x.IssueType != "Epic")
             .OrderBy(x => x.Key);
 
-        foreach (var issue in Issues)
+        foreach (var issue in epiclessIssues)
         {
-            var nodeKey = GetNodeKey(issue);
-            sb.AppendLine($"\t{nodeKey} [shape=\"rectangle\" style=\"filled\" fillcolor=\"{GetFillColorForStatus(issue.Status)}\" label=\"{issue.IssueType}: {issue.Summary}\"];");
+            var graphVizStringForIssue = GetGraphVizStringForIssue(issue);
+            sb.AppendLine($"\t{graphVizStringForIssue}");
         }
     }
 
     private string GetNodeKey(JiraIssue issue)
     {
         return issue.Key.Replace('-', '_');
+    }
+
+    private string GetGraphVizStringForIssue(JiraIssue issue)
+    {
+        var nodeKey = GetNodeKey(issue);
+        return $"{nodeKey} [shape=\"rectangle\" style=\"filled\" fillcolor=\"{GetFillColorForStatus(issue.Status)}\" label=\"{issue.Key}\\n{issue.IssueType}\\n{issue.Summary}\"];";
     }
 
     private string GetFillColorForStatus(string status)
