@@ -14,10 +14,14 @@ public class JiraIssueFields
     [JsonPropertyName("issuetype")]
     public JiraIssueType IssueType { get; }
 
-    public JiraIssueFields(string summary, JiraIssueParentEpic parentEpic, JiraIssueType issueType)
+    [JsonPropertyName("status")]
+    public JiraIssueStatus Status { get; }
+
+    public JiraIssueFields(string summary, JiraIssueParentEpic parentEpic, JiraIssueType issueType, JiraIssueStatus status)
     {
         Summary = summary;
         ParentEpic = parentEpic;
         IssueType = issueType;
+        Status = status;
     }
 }

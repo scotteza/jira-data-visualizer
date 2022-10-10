@@ -28,6 +28,7 @@ internal class DataFetcherShould
         Assert.That(result.Summary, Is.EqualTo("Testing 123 Task Without Epic"));
         Assert.That(result.ParentEpicKey, Is.Empty);
         Assert.That(result.IssueType, Is.EqualTo("Task"));
+        Assert.That(result.Status, Is.EqualTo("To Do"));
     }
 
     private string GetRealisticJiraSingleIssueWithoutEpicHttpResponse()
@@ -93,6 +94,7 @@ internal class DataFetcherShould
         Assert.That(result.Summary, Is.EqualTo("Task in epic"));
         Assert.That(result.ParentEpicKey, Is.EqualTo("PROJ-4"));
         Assert.That(result.IssueType, Is.EqualTo("Task"));
+        Assert.That(result.Status, Is.EqualTo("In Progress"));
     }
 
     private string GetRealisticJiraSingleIssueWithEpicHttpResponse()
@@ -156,21 +158,22 @@ internal class DataFetcherShould
         },
         ""issuelinks"": [],
         ""status"": {
-            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10006"",
+            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10007"",
             ""description"": """",
             ""iconUrl"": ""https://my-jira-domain.atlassian.net/"",
-            ""name"": ""To Do"",
-            ""id"": ""10006"",
+            ""name"": ""In Progress"",
+            ""id"": ""10007"",
             ""statusCategory"": {
-                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/2"",
-                ""id"": 2,
-                ""key"": ""new"",
-                ""colorName"": ""blue-gray"",
-                ""name"": ""To Do""
+                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/4"",
+                ""id"": 4,
+                ""key"": ""indeterminate"",
+                ""colorName"": ""yellow"",
+                ""name"": ""In Progress""
             }
         }
     }
-}";
+}
+";
     }
 
 

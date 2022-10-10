@@ -22,6 +22,10 @@ public class JiraIssue
     public string IssueType => Fields?.IssueType != null
                                     ? Fields.IssueType.Name
                                     : "";
+    
+    public string Status => Fields?.Status != null
+                                    ? Fields.Status.Name
+                                    : "";
 
     public JiraIssue(string key, JiraIssueFields fields)
     {

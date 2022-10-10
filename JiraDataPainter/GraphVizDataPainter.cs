@@ -34,9 +34,9 @@ public class GraphVizDataPainter : IDataPainter
         foreach (var epic in epics)
         {
             sb.AppendLine($"\tsubgraph cluster_{subGraphClusterIndex} {{");
-            
+
             PaintEpicSubIssues(issues, sb, epic);
-            
+
             sb.AppendLine($"\t\tlabel = \"{epic.Key}\";");
             sb.AppendLine("\t}");
 
@@ -46,29 +46,40 @@ public class GraphVizDataPainter : IDataPainter
 
     private void PaintEpicSubIssues(IReadOnlyList<JiraIssue> issues, StringBuilder sb, JiraIssue epic)
     {
-        var epicIssues = issues.Where(x => x.ParentEpicKey.Equals(epic.Key)).OrderBy(x => x.Key);
-        foreach (var epicIssue in epicIssues)
+        var Issues = issues.Where(x => x.ParentEpicKey.Equals(epic.Key)).OrderBy(x => x.Key);
+        foreach (var issue in Issues)
         {
-            var nodeKey = GetNodeKey(epicIssue);
-            sb.AppendLine($"\t\t{nodeKey} [shape=\"rectangle\" label=\"{epicIssue.IssueType}: {epicIssue.Summary}\"];");
+            var nodeKey = GetNodeKey(issue);
+            sb.AppendLine($"\t\t{nodeKey} [shape=\"rectangle\" style=\"filled\" fillcolor=\"{GetFillColorForStatus(issue.Status)}\" label=\"{issue.IssueType}: {issue.Summary}\"];");
         }
     }
 
     private void PaintEpiclessIssues(IReadOnlyList<JiraIssue> issues, StringBuilder sb)
     {
-        var epiclessIssues =
+        var Issues =
             issues.Where(x => string.IsNullOrWhiteSpace(x.ParentEpicKey) && x.IssueType != "Epic")
             .OrderBy(x => x.Key);
 
-        foreach (var issue in epiclessIssues)
+        foreach (var issue in Issues)
         {
             var nodeKey = GetNodeKey(issue);
-            sb.AppendLine($"\t{nodeKey} [shape=\"rectangle\" label=\"{issue.IssueType}: {issue.Summary}\"];");
+            sb.AppendLine($"\t{nodeKey} [shape=\"rectangle\" style=\"filled\" fillcolor=\"{GetFillColorForStatus(issue.Status)}\" label=\"{issue.IssueType}: {issue.Summary}\"];");
         }
     }
 
     private string GetNodeKey(JiraIssue issue)
     {
         return issue.Key.Replace('-', '_');
+    }
+
+    private string GetFillColorForStatus(string status)
+    {
+        return status switch
+        {
+            "To Do" => "red",
+            "In Progress" => "yellow",
+            "Done" => "green",
+            _ => "white"
+        };
     }
 }
