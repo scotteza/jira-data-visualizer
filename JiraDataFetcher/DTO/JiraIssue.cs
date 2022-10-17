@@ -27,7 +27,7 @@ public class JiraIssue
                                     ? Fields.Status.Name
                                     : string.Empty;
 
-    public IReadOnlyList<string> GetBlockedIssues()
+    public IReadOnlyList<string> GetIssuesThatIBlock()
     {
         if (Fields?.IssueLinks == null)
         {
@@ -43,7 +43,7 @@ public class JiraIssue
             .AsReadOnly();
     }
 
-    public IReadOnlyList<string> GetBlockerIssues()
+    public IReadOnlyList<string> GetIssuesThatBlockMe()
     {
         if (Fields?.IssueLinks == null)
         {
