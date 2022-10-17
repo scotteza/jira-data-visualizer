@@ -178,32 +178,488 @@ internal class DataFetcherShould
 
 
 
-    [Ignore("To implement next - need to add multiple blockers to collection data")]
     [Test]
-    public void Fetch_An_Issue_That_Blocks_Others()
+    public async Task Fetch_An_Issue_That_Blocks_Others()
     {
-        
+        var httpGetter = new Mock<IHttpGetter>(MockBehavior.Strict);
+
+        var httpResult = GetRealisticJiraBlockerIssueHttpResponse();
+        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-9?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
+
+
+        var dataFetcher = new DataFetcher(httpGetter.Object, "my-jira-domain", "username", "password");
+
+
+        var result = await dataFetcher.FetchIssue("PROJ-9");
+
+
+        httpGetter.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+
+        Assert.That(result.Key, Is.EqualTo("PROJ-9"));
+        var blockedIssues = result.GetBlockedIssues();
+        Assert.That(blockedIssues, Has.Count.EqualTo(2));
+        Assert.That(blockedIssues[0], Is.EqualTo("PROJ-8"));
+        Assert.That(blockedIssues[1], Is.EqualTo("PROJ-10"));
     }
 
     private string GetRealisticJiraBlockerIssueHttpResponse()
     {
-        return @"";
+        return @"{
+    ""expand"": ""renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations"",
+    ""id"": ""10066"",
+    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10066"",
+    ""key"": ""PROJ-9"",
+    ""fields"": {
+        ""summary"": ""I am a blocker"",
+        ""issuetype"": {
+            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issuetype/10009"",
+            ""id"": ""10009"",
+            ""description"": ""Tasks track small, distinct pieces of work."",
+            ""iconUrl"": ""https://my-jira-domain.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium"",
+            ""name"": ""Task"",
+            ""subtask"": false,
+            ""avatarId"": 10318,
+            ""entityId"": ""8ba76d8e-86a6-4e11-8df6-74e165872028"",
+            ""hierarchyLevel"": 0
+        },
+        ""issuelinks"": [
+            {
+                ""id"": ""10005"",
+                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLink/10005"",
+                ""type"": {
+                    ""id"": ""10000"",
+                    ""name"": ""Blocks"",
+                    ""inward"": ""is blocked by"",
+                    ""outward"": ""blocks"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLinkType/10000""
+                },
+                ""outwardIssue"": {
+                    ""id"": ""10065"",
+                    ""key"": ""PROJ-8"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10065"",
+                    ""fields"": {
+                        ""summary"": ""I am blocked"",
+                        ""status"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10006"",
+                            ""description"": """",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/"",
+                            ""name"": ""To Do"",
+                            ""id"": ""10006"",
+                            ""statusCategory"": {
+                                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/2"",
+                                ""id"": 2,
+                                ""key"": ""new"",
+                                ""colorName"": ""blue-gray"",
+                                ""name"": ""To Do""
+                            }
+                        },
+                        ""priority"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/priority/3"",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/images/icons/priorities/medium.svg"",
+                            ""name"": ""Medium"",
+                            ""id"": ""3""
+                        },
+                        ""issuetype"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issuetype/10009"",
+                            ""id"": ""10009"",
+                            ""description"": ""Tasks track small, distinct pieces of work."",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium"",
+                            ""name"": ""Task"",
+                            ""subtask"": false,
+                            ""avatarId"": 10318,
+                            ""entityId"": ""8ba76d8e-86a6-4e11-8df6-74e165872028"",
+                            ""hierarchyLevel"": 0
+                        }
+                    }
+                }
+            },
+            {
+                ""id"": ""10006"",
+                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLink/10006"",
+                ""type"": {
+                    ""id"": ""10000"",
+                    ""name"": ""Blocks"",
+                    ""inward"": ""is blocked by"",
+                    ""outward"": ""blocks"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLinkType/10000""
+                },
+                ""outwardIssue"": {
+                    ""id"": ""10067"",
+                    ""key"": ""PROJ-10"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10067"",
+                    ""fields"": {
+                        ""summary"": ""A random story"",
+                        ""status"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10006"",
+                            ""description"": """",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/"",
+                            ""name"": ""To Do"",
+                            ""id"": ""10006"",
+                            ""statusCategory"": {
+                                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/2"",
+                                ""id"": 2,
+                                ""key"": ""new"",
+                                ""colorName"": ""blue-gray"",
+                                ""name"": ""To Do""
+                            }
+                        },
+                        ""priority"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/priority/3"",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/images/icons/priorities/medium.svg"",
+                            ""name"": ""Medium"",
+                            ""id"": ""3""
+                        },
+                        ""issuetype"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issuetype/10014"",
+                            ""id"": ""10014"",
+                            ""description"": ""Stories track functionality or features expressed as user goals."",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium"",
+                            ""name"": ""Story"",
+                            ""subtask"": false,
+                            ""avatarId"": 10315,
+                            ""entityId"": ""1556ac4d-515e-448d-bdf9-7ba528fc7bb3"",
+                            ""hierarchyLevel"": 0
+                        }
+                    }
+                }
+            },
+            {
+                ""id"": ""10009"",
+                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLink/10009"",
+                ""type"": {
+                    ""id"": ""10000"",
+                    ""name"": ""Blocks"",
+                    ""inward"": ""is blocked by"",
+                    ""outward"": ""blocks"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLinkType/10000""
+                },
+                ""inwardIssue"": {
+                    ""id"": ""10069"",
+                    ""key"": ""PROJ-12"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10069"",
+                    ""fields"": {
+                        ""summary"": ""Misc issue ABC"",
+                        ""status"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10006"",
+                            ""description"": """",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/"",
+                            ""name"": ""To Do"",
+                            ""id"": ""10006"",
+                            ""statusCategory"": {
+                                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/2"",
+                                ""id"": 2,
+                                ""key"": ""new"",
+                                ""colorName"": ""blue-gray"",
+                                ""name"": ""To Do""
+                            }
+                        },
+                        ""priority"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/priority/3"",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/images/icons/priorities/medium.svg"",
+                            ""name"": ""Medium"",
+                            ""id"": ""3""
+                        },
+                        ""issuetype"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issuetype/10014"",
+                            ""id"": ""10014"",
+                            ""description"": ""Stories track functionality or features expressed as user goals."",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium"",
+                            ""name"": ""Story"",
+                            ""subtask"": false,
+                            ""avatarId"": 10315,
+                            ""entityId"": ""1556ac4d-515e-448d-bdf9-7ba528fc7bb3"",
+                            ""hierarchyLevel"": 0
+                        }
+                    }
+                }
+            }
+        ],
+        ""status"": {
+            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10006"",
+            ""description"": """",
+            ""iconUrl"": ""https://my-jira-domain.atlassian.net/"",
+            ""name"": ""To Do"",
+            ""id"": ""10006"",
+            ""statusCategory"": {
+                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/2"",
+                ""id"": 2,
+                ""key"": ""new"",
+                ""colorName"": ""blue-gray"",
+                ""name"": ""To Do""
+            }
+        }
+    }
+}";
     }
 
 
 
 
-    [Ignore("To implement next - need to add multiple blockers to collection data")]
     [Test]
-    public void Fetch_A_Blocked_Issue()
+    public async Task Fetch_A_Blocked_Issue()
     {
-        
+        var httpGetter = new Mock<IHttpGetter>(MockBehavior.Strict);
+
+        var httpResult = GetRealisticJiraBlockedIssueHttpResponse();
+        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-9?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
+
+
+        var dataFetcher = new DataFetcher(httpGetter.Object, "my-jira-domain", "username", "password");
+
+
+        var result = await dataFetcher.FetchIssue("PROJ-9");
+
+
+        httpGetter.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+
+        Assert.That(result.Key, Is.EqualTo("PROJ-8"));
+        var blockedIssues = result.GetBlockerIssues();
+        Assert.That(blockedIssues, Has.Count.EqualTo(3));
+        Assert.That(blockedIssues[0], Is.EqualTo("PROJ-9"));
+        Assert.That(blockedIssues[1], Is.EqualTo("PROJ-10"));
+        Assert.That(blockedIssues[2], Is.EqualTo("PROJ-11"));
     }
 
     private string GetRealisticJiraBlockedIssueHttpResponse()
     {
-        return @"";
+        return @"{
+    ""expand"": ""renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations"",
+    ""id"": ""10065"",
+    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10065"",
+    ""key"": ""PROJ-8"",
+    ""fields"": {
+        ""summary"": ""I am blocked"",
+        ""issuetype"": {
+            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issuetype/10009"",
+            ""id"": ""10009"",
+            ""description"": ""Tasks track small, distinct pieces of work."",
+            ""iconUrl"": ""https://my-jira-domain.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium"",
+            ""name"": ""Task"",
+            ""subtask"": false,
+            ""avatarId"": 10318,
+            ""entityId"": ""8ba76d8e-86a6-4e11-8df6-74e165872028"",
+            ""hierarchyLevel"": 0
+        },
+        ""issuelinks"": [
+            {
+                ""id"": ""10010"",
+                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLink/10010"",
+                ""type"": {
+                    ""id"": ""10000"",
+                    ""name"": ""Blocks"",
+                    ""inward"": ""is blocked by"",
+                    ""outward"": ""blocks"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLinkType/10000""
+                },
+                ""outwardIssue"": {
+                    ""id"": ""10069"",
+                    ""key"": ""PROJ-12"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10069"",
+                    ""fields"": {
+                        ""summary"": ""Misc issue ABC"",
+                        ""status"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10006"",
+                            ""description"": """",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/"",
+                            ""name"": ""To Do"",
+                            ""id"": ""10006"",
+                            ""statusCategory"": {
+                                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/2"",
+                                ""id"": 2,
+                                ""key"": ""new"",
+                                ""colorName"": ""blue-gray"",
+                                ""name"": ""To Do""
+                            }
+                        },
+                        ""priority"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/priority/3"",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/images/icons/priorities/medium.svg"",
+                            ""name"": ""Medium"",
+                            ""id"": ""3""
+                        },
+                        ""issuetype"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issuetype/10014"",
+                            ""id"": ""10014"",
+                            ""description"": ""Stories track functionality or features expressed as user goals."",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium"",
+                            ""name"": ""Story"",
+                            ""subtask"": false,
+                            ""avatarId"": 10315,
+                            ""entityId"": ""1556ac4d-515e-448d-bdf9-7ba528fc7bb3"",
+                            ""hierarchyLevel"": 0
+                        }
+                    }
+                }
+            },
+            {
+                ""id"": ""10005"",
+                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLink/10005"",
+                ""type"": {
+                    ""id"": ""10000"",
+                    ""name"": ""Blocks"",
+                    ""inward"": ""is blocked by"",
+                    ""outward"": ""blocks"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLinkType/10000""
+                },
+                ""inwardIssue"": {
+                    ""id"": ""10066"",
+                    ""key"": ""PROJ-9"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10066"",
+                    ""fields"": {
+                        ""summary"": ""I am a blocker"",
+                        ""status"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10006"",
+                            ""description"": """",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/"",
+                            ""name"": ""To Do"",
+                            ""id"": ""10006"",
+                            ""statusCategory"": {
+                                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/2"",
+                                ""id"": 2,
+                                ""key"": ""new"",
+                                ""colorName"": ""blue-gray"",
+                                ""name"": ""To Do""
+                            }
+                        },
+                        ""priority"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/priority/3"",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/images/icons/priorities/medium.svg"",
+                            ""name"": ""Medium"",
+                            ""id"": ""3""
+                        },
+                        ""issuetype"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issuetype/10009"",
+                            ""id"": ""10009"",
+                            ""description"": ""Tasks track small, distinct pieces of work."",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium"",
+                            ""name"": ""Task"",
+                            ""subtask"": false,
+                            ""avatarId"": 10318,
+                            ""entityId"": ""8ba76d8e-86a6-4e11-8df6-74e165872028"",
+                            ""hierarchyLevel"": 0
+                        }
+                    }
+                }
+            },
+            {
+                ""id"": ""10007"",
+                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLink/10007"",
+                ""type"": {
+                    ""id"": ""10000"",
+                    ""name"": ""Blocks"",
+                    ""inward"": ""is blocked by"",
+                    ""outward"": ""blocks"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLinkType/10000""
+                },
+                ""inwardIssue"": {
+                    ""id"": ""10067"",
+                    ""key"": ""PROJ-10"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10067"",
+                    ""fields"": {
+                        ""summary"": ""A random story"",
+                        ""status"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10006"",
+                            ""description"": """",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/"",
+                            ""name"": ""To Do"",
+                            ""id"": ""10006"",
+                            ""statusCategory"": {
+                                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/2"",
+                                ""id"": 2,
+                                ""key"": ""new"",
+                                ""colorName"": ""blue-gray"",
+                                ""name"": ""To Do""
+                            }
+                        },
+                        ""priority"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/priority/3"",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/images/icons/priorities/medium.svg"",
+                            ""name"": ""Medium"",
+                            ""id"": ""3""
+                        },
+                        ""issuetype"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issuetype/10014"",
+                            ""id"": ""10014"",
+                            ""description"": ""Stories track functionality or features expressed as user goals."",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium"",
+                            ""name"": ""Story"",
+                            ""subtask"": false,
+                            ""avatarId"": 10315,
+                            ""entityId"": ""1556ac4d-515e-448d-bdf9-7ba528fc7bb3"",
+                            ""hierarchyLevel"": 0
+                        }
+                    }
+                }
+            },
+            {
+                ""id"": ""10008"",
+                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLink/10008"",
+                ""type"": {
+                    ""id"": ""10000"",
+                    ""name"": ""Blocks"",
+                    ""inward"": ""is blocked by"",
+                    ""outward"": ""blocks"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issueLinkType/10000""
+                },
+                ""inwardIssue"": {
+                    ""id"": ""10068"",
+                    ""key"": ""PROJ-11"",
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10068"",
+                    ""fields"": {
+                        ""summary"": ""Another random story"",
+                        ""status"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10006"",
+                            ""description"": """",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/"",
+                            ""name"": ""To Do"",
+                            ""id"": ""10006"",
+                            ""statusCategory"": {
+                                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/2"",
+                                ""id"": 2,
+                                ""key"": ""new"",
+                                ""colorName"": ""blue-gray"",
+                                ""name"": ""To Do""
+                            }
+                        },
+                        ""priority"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/priority/3"",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/images/icons/priorities/medium.svg"",
+                            ""name"": ""Medium"",
+                            ""id"": ""3""
+                        },
+                        ""issuetype"": {
+                            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issuetype/10014"",
+                            ""id"": ""10014"",
+                            ""description"": ""Stories track functionality or features expressed as user goals."",
+                            ""iconUrl"": ""https://my-jira-domain.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium"",
+                            ""name"": ""Story"",
+                            ""subtask"": false,
+                            ""avatarId"": 10315,
+                            ""entityId"": ""1556ac4d-515e-448d-bdf9-7ba528fc7bb3"",
+                            ""hierarchyLevel"": 0
+                        }
+                    }
+                }
+            }
+        ],
+        ""status"": {
+            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10006"",
+            ""description"": """",
+            ""iconUrl"": ""https://my-jira-domain.atlassian.net/"",
+            ""name"": ""To Do"",
+            ""id"": ""10006"",
+            ""statusCategory"": {
+                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/2"",
+                ""id"": 2,
+                ""key"": ""new"",
+                ""colorName"": ""blue-gray"",
+                ""name"": ""To Do""
+            }
+        }
     }
+}";
+    }
+
 
 
 

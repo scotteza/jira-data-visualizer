@@ -17,11 +17,20 @@ public class JiraIssueFields
     [JsonPropertyName("status")]
     public JiraIssueStatus Status { get; }
 
-    public JiraIssueFields(string summary, JiraIssueParentEpic parentEpic, JiraIssueType issueType, JiraIssueStatus status)
+    [JsonPropertyName("issuelinks")]
+    public List<JiraIssueLinks> IssueLinks { get; }
+
+    public JiraIssueFields(
+        string summary,
+        JiraIssueParentEpic parentEpic,
+        JiraIssueType issueType,
+        JiraIssueStatus status,
+        List<JiraIssueLinks> issueLinks)
     {
         Summary = summary;
         ParentEpic = parentEpic;
         IssueType = issueType;
         Status = status;
+        IssueLinks = issueLinks;
     }
 }

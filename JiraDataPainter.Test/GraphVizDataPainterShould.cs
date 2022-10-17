@@ -44,55 +44,64 @@ internal class GraphVizDataPainterShould
             new JiraIssueFields("Testing 123 Task Without Epic",
                 new JiraIssueParentEpic(string.Empty),
                 new JiraIssueType("Task"),
-                new JiraIssueStatus("Unknown Status"))));
+                new JiraIssueStatus("Unknown Status"),
+                new List<JiraIssueLinks>())));
 
         issues.Add(new JiraIssue("PROJ-2",
             new JiraIssueFields("Testing 123 Bug Without Epic",
                 new JiraIssueParentEpic(string.Empty),
                 new JiraIssueType("Bug"),
-                new JiraIssueStatus("To Do"))));
+                new JiraIssueStatus("To Do"),
+                new List<JiraIssueLinks>())));
 
         issues.Add(new JiraIssue("PROJ-3",
             new JiraIssueFields("Testing 123 Story Without Epic",
                 new JiraIssueParentEpic(string.Empty),
                 new JiraIssueType("Story"),
-                new JiraIssueStatus("Done"))));
+                new JiraIssueStatus("Done"),
+                new List<JiraIssueLinks>())));
 
         issues.Add(new JiraIssue("PROJ-4",
             new JiraIssueFields("Big important epic",
                 new JiraIssueParentEpic(string.Empty),
                 new JiraIssueType("Epic"),
-                new JiraIssueStatus("To Do"))));
+                new JiraIssueStatus("To Do"),
+                new List<JiraIssueLinks>())));
 
         issues.Add(new JiraIssue("PROJ-5",
             new JiraIssueFields("Task in epic",
                 new JiraIssueParentEpic("PROJ-4"),
                 new JiraIssueType("Task"),
-                new JiraIssueStatus("To Do"))));
+                new JiraIssueStatus("To Do"),
+                new List<JiraIssueLinks>())));
 
         issues.Add(new JiraIssue("PROJ-6",
             new JiraIssueFields("Bug in epic",
                 new JiraIssueParentEpic("PROJ-4"),
                 new JiraIssueType("Bug"),
-                new JiraIssueStatus("To Do"))));
+                new JiraIssueStatus("To Do"),
+                new List<JiraIssueLinks>())));
 
         issues.Add(new JiraIssue("PROJ-7",
             new JiraIssueFields("Story in epic",
                 new JiraIssueParentEpic("PROJ-4"),
                 new JiraIssueType("Story"),
-                new JiraIssueStatus("In Progress"))));
+                new JiraIssueStatus("In Progress"),
+                new List<JiraIssueLinks>())));
 
         issues.Add(new JiraIssue("PROJ-8",
             new JiraIssueFields("Big important epic 2",
                 new JiraIssueParentEpic(string.Empty),
                 new JiraIssueType("Epic"),
-                new JiraIssueStatus("Done"))));
+                new JiraIssueStatus("Done"),
+                new List<JiraIssueLinks>())));
 
         issues.Add(new JiraIssue("PROJ-9",
             new JiraIssueFields("Task in epic 2",
                 new JiraIssueParentEpic("PROJ-8"),
                 new JiraIssueType("Task"),
-                new JiraIssueStatus("Done"))));
+                new JiraIssueStatus("Done"),
+                new List<JiraIssueLinks>())));
 
 
         _painter.PaintData(issues.AsReadOnly());

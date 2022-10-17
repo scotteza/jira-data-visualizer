@@ -13,19 +13,51 @@ public class JiraIssue
 
     public string Summary => Fields != null
                                 ? Fields.Summary
-                                : "";
+                                : string.Empty;
 
     public string ParentEpicKey => Fields?.ParentEpic != null
                                     ? Fields.ParentEpic.Key
-                                    : "";
+                                    : string.Empty;
 
     public string IssueType => Fields?.IssueType != null
                                     ? Fields.IssueType.Name
-                                    : "";
-    
+                                    : string.Empty;
+
     public string Status => Fields?.Status != null
                                     ? Fields.Status.Name
-                                    : "";
+                                    : string.Empty;
+
+    public IReadOnlyList<string> GetBlockedIssues()
+    {
+        if (Fields?.IssueLinks == null)
+        {
+            return new List<string>().AsReadOnly();
+        }
+
+        return Fields.IssueLinks.Where(
+                x => x.Type.Outward.Equals("blocks")
+                && x.OutwardIssue != null
+                )
+            .Select(x => x.OutwardIssueKey)
+            .ToList()
+            .AsReadOnly();
+    }
+
+    public IReadOnlyList<string> GetBlockerIssues()
+    {
+        if (Fields?.IssueLinks == null)
+        {
+            return new List<string>().AsReadOnly();
+        }
+
+        return Fields.IssueLinks.Where(
+                x => x.Type.Inward.Equals("is blocked by")
+                && x.InwardIssue != null
+                )
+            .Select(x => x.InwardIssueKey)
+            .ToList()
+            .AsReadOnly();
+    }
 
     public JiraIssue(string key, JiraIssueFields fields)
     {
