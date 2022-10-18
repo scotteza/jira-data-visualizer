@@ -17,8 +17,8 @@ public class GraphVizDataPainter : IDataPainter
         var sb = new StringBuilder();
 
         sb.AppendLine("digraph G {");
-        PaintEpics(issues, sb);
-        PaintEpiclessIssues(issues, sb);
+        var subGraphClusterIndex = PaintEpics(issues, sb);
+        PaintEpiclessIssues(issues, sb, subGraphClusterIndex);
         sb.AppendLine();
         PaintIssueLinks(issues, sb);
         sb.AppendLine("}");
@@ -26,7 +26,7 @@ public class GraphVizDataPainter : IDataPainter
         _graphWriter.WriteGraph(sb.ToString());
     }
 
-    private void PaintEpics(IReadOnlyList<JiraIssue> issues, StringBuilder sb)
+    private int PaintEpics(IReadOnlyList<JiraIssue> issues, StringBuilder sb)
     {
         var subGraphClusterIndex = 0;
         var epics =
@@ -45,6 +45,8 @@ public class GraphVizDataPainter : IDataPainter
 
             subGraphClusterIndex++;
         }
+
+        return subGraphClusterIndex;
     }
 
     private void PaintEpicSubIssues(IReadOnlyList<JiraIssue> issues, StringBuilder sb, JiraIssue epic)
@@ -57,17 +59,23 @@ public class GraphVizDataPainter : IDataPainter
         }
     }
 
-    private void PaintEpiclessIssues(IReadOnlyList<JiraIssue> issues, StringBuilder sb)
+    private void PaintEpiclessIssues(IReadOnlyList<JiraIssue> issues, StringBuilder sb, int subGraphClusterIndex)
     {
         var epiclessIssues =
             issues.Where(x => string.IsNullOrWhiteSpace(x.ParentEpicKey) && x.IssueType != "Epic")
             .OrderBy(x => x.Key);
 
+        sb.AppendLine($"\tsubgraph cluster_{subGraphClusterIndex} {{");
+
         foreach (var issue in epiclessIssues)
         {
             var graphVizStringForIssue = GetGraphVizStringForIssue(issue);
-            sb.AppendLine($"\t{graphVizStringForIssue}");
+            sb.AppendLine($"\t\t{graphVizStringForIssue}");
         }
+
+        sb.AppendLine($"\t\tlabel = \"No epic\";");
+        sb.AppendLine("\t\tbgcolor=\"lavender\"");
+        sb.AppendLine("\t}");
     }
 
     private string GetNodeKey(JiraIssue issue)
@@ -93,7 +101,7 @@ public class GraphVizDataPainter : IDataPainter
         {
             "To Do" => "pink",
             "In Progress" => "yellow",
-            "Done" => "green",
+            "Done" => "lightgreen",
             _ => "white"
         };
     }

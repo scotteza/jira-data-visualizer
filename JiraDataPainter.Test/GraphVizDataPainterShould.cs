@@ -28,13 +28,17 @@ internal class GraphVizDataPainterShould
 		bgcolor=""azure""
 	}
 	subgraph cluster_1 {
-		PROJ_9 [shape=""rectangle"" style=""filled"" fillcolor=""green"" label=""PROJ-9\nTask\nTask in epic 2""];
+		PROJ_9 [shape=""rectangle"" style=""filled"" fillcolor=""lightgreen"" label=""PROJ-9\nTask\nTask in epic 2""];
 		label = ""PROJ-8\nBig important epic 2"";
 		bgcolor=""azure""
 	}
-	PROJ_1 [shape=""rectangle"" style=""filled"" fillcolor=""white"" label=""PROJ-1\nTask\nTesting 123 Task Without Epic""];
-	PROJ_2 [shape=""rectangle"" style=""filled"" fillcolor=""pink"" label=""PROJ-2\nBug\nTesting 123 Bug Without Epic""];
-	PROJ_3 [shape=""rectangle"" style=""filled"" fillcolor=""green"" label=""PROJ-3\nStory\nTesting 123 Story Without Epic""];
+	subgraph cluster_2 {
+		PROJ_1 [shape=""rectangle"" style=""filled"" fillcolor=""white"" label=""PROJ-1\nTask\nTesting 123 Task Without Epic""];
+		PROJ_2 [shape=""rectangle"" style=""filled"" fillcolor=""pink"" label=""PROJ-2\nBug\nTesting 123 Bug Without Epic""];
+		PROJ_3 [shape=""rectangle"" style=""filled"" fillcolor=""lightgreen"" label=""PROJ-3\nStory\nTesting 123 Story Without Epic""];
+		label = ""No epic"";
+		bgcolor=""lavender""
+	}
 
 	PROJ_8->PROJ_9
 }
