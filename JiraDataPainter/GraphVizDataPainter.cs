@@ -39,7 +39,8 @@ public class GraphVizDataPainter : IDataPainter
 
             PaintEpicSubIssues(issues, sb, epic);
 
-            sb.AppendLine($"\t\tlabel = \"{epic.Key} - {epic.Summary}\";");
+            sb.AppendLine($"\t\tlabel = \"{epic.Key}\\n{epic.Summary}\";");
+            sb.AppendLine("\t\tbgcolor=\"azure\"");
             sb.AppendLine("\t}");
 
             subGraphClusterIndex++;
@@ -90,7 +91,7 @@ public class GraphVizDataPainter : IDataPainter
     {
         return status switch
         {
-            "To Do" => "red",
+            "To Do" => "pink",
             "In Progress" => "yellow",
             "Done" => "green",
             _ => "white"

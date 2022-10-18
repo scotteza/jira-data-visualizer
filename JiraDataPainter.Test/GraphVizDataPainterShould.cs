@@ -21,17 +21,19 @@ internal class GraphVizDataPainterShould
     {
         const string expectedOutput = @"digraph G {
 	subgraph cluster_0 {
-		PROJ_5 [shape=""rectangle"" style=""filled"" fillcolor=""red"" label=""PROJ-5\nTask\nTask in epic""];
-		PROJ_6 [shape=""rectangle"" style=""filled"" fillcolor=""red"" label=""PROJ-6\nBug\nBug in epic""];
+		PROJ_5 [shape=""rectangle"" style=""filled"" fillcolor=""pink"" label=""PROJ-5\nTask\nTask in epic""];
+		PROJ_6 [shape=""rectangle"" style=""filled"" fillcolor=""pink"" label=""PROJ-6\nBug\nBug in epic""];
 		PROJ_7 [shape=""rectangle"" style=""filled"" fillcolor=""yellow"" label=""PROJ-7\nStory\nStory in epic""];
-		label = ""PROJ-4 - Big important epic"";
+		label = ""PROJ-4\nBig important epic"";
+		bgcolor=""azure""
 	}
 	subgraph cluster_1 {
 		PROJ_9 [shape=""rectangle"" style=""filled"" fillcolor=""green"" label=""PROJ-9\nTask\nTask in epic 2""];
-		label = ""PROJ-8 - Big important epic 2"";
+		label = ""PROJ-8\nBig important epic 2"";
+		bgcolor=""azure""
 	}
 	PROJ_1 [shape=""rectangle"" style=""filled"" fillcolor=""white"" label=""PROJ-1\nTask\nTesting 123 Task Without Epic""];
-	PROJ_2 [shape=""rectangle"" style=""filled"" fillcolor=""red"" label=""PROJ-2\nBug\nTesting 123 Bug Without Epic""];
+	PROJ_2 [shape=""rectangle"" style=""filled"" fillcolor=""pink"" label=""PROJ-2\nBug\nTesting 123 Bug Without Epic""];
 	PROJ_3 [shape=""rectangle"" style=""filled"" fillcolor=""green"" label=""PROJ-3\nStory\nTesting 123 Story Without Epic""];
 
 	PROJ_8->PROJ_9
