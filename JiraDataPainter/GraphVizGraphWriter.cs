@@ -8,8 +8,9 @@ public class GraphVizGraphWriter : IGraphVizGraphWriter
         File.WriteAllText(graphVizPath, graphData);
 
         var fullBatchPath = new FileInfo("./generate-output.bat").FullName;
-        File.WriteAllText(fullBatchPath, @"dot -Tpng -Gdpi=150 input.dot > output.png
-code output.png");
+        var fullOutputImagePath = new FileInfo("./output.svg").FullName;
+        File.WriteAllText(fullBatchPath, @$"dot -Tsvg input.dot > {fullOutputImagePath}
+""C:\Program Files\Mozilla Firefox\firefox.exe"" {fullOutputImagePath}");
 
         //System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{fullBatchPath}\"");
         System.Diagnostics.Process.Start("cmd.exe", $"/c {fullBatchPath}");
