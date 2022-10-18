@@ -19,6 +19,8 @@ public class GraphVizDataPainter : IDataPainter
         sb.AppendLine("digraph G {");
         PaintEpics(issues, sb);
         PaintEpiclessIssues(issues, sb);
+        sb.AppendLine();
+        PaintIssueLinks(issues, sb);
         sb.AppendLine("}");
 
         _graphWriter.WriteGraph(sb.ToString());
@@ -69,7 +71,13 @@ public class GraphVizDataPainter : IDataPainter
 
     private string GetNodeKey(JiraIssue issue)
     {
-        return issue.Key.Replace('-', '_');
+        var key = issue.Key;
+        return GetNodeKey(key);
+    }
+
+    private string GetNodeKey(string key)
+    {
+        return key.Replace('-', '_');
     }
 
     private string GetGraphVizStringForIssue(JiraIssue issue)
@@ -87,5 +95,44 @@ public class GraphVizDataPainter : IDataPainter
             "Done" => "green",
             _ => "white"
         };
+    }
+
+    private void PaintIssueLinks(IReadOnlyList<JiraIssue> issues, StringBuilder sb)
+    {
+        var links = new List<string>();
+        foreach (var issue in issues)
+        {
+            var issuesThatBlockMe = issue.GetIssuesThatBlockMe();
+            var issuesThatIBlock = issue.GetIssuesThatIBlock();
+            links.AddRange(GetIssuesThatBlockMeText(issue.Key, issuesThatBlockMe));
+            links.AddRange(GetIssuesThatIBlockText(issue.Key, issuesThatIBlock));
+        }
+
+        foreach (var link in links.Distinct().OrderBy(x => x))
+        {
+            sb.AppendLine($"\t{link}");
+        }
+    }
+
+    private List<string> GetIssuesThatBlockMeText(string key, IReadOnlyList<string> issuesThatBlockMe)
+    {
+        var result = new List<string>();
+        foreach (var issue in issuesThatBlockMe)
+        {
+            result.Add($"{GetNodeKey(issue)}->{GetNodeKey(key)}");
+        }
+
+        return result;
+    }
+
+    private List<string> GetIssuesThatIBlockText(string key, IReadOnlyList<string> issuesThatIBlock)
+    {
+        var result = new List<string>();
+        foreach (var issue in issuesThatIBlock)
+        {
+            result.Add($"{GetNodeKey(key)}->{GetNodeKey(issue)}");
+        }
+
+        return result;
     }
 }

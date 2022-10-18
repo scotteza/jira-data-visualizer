@@ -33,6 +33,8 @@ internal class GraphVizDataPainterShould
 	PROJ_1 [shape=""rectangle"" style=""filled"" fillcolor=""white"" label=""PROJ-1\nTask\nTesting 123 Task Without Epic""];
 	PROJ_2 [shape=""rectangle"" style=""filled"" fillcolor=""red"" label=""PROJ-2\nBug\nTesting 123 Bug Without Epic""];
 	PROJ_3 [shape=""rectangle"" style=""filled"" fillcolor=""green"" label=""PROJ-3\nStory\nTesting 123 Story Without Epic""];
+
+	PROJ_8->PROJ_9
 }
 ";
         _graphWriter.Setup(x => x.WriteGraph(expectedOutput));
@@ -89,19 +91,35 @@ internal class GraphVizDataPainterShould
                 new JiraIssueStatus("In Progress"),
                 new List<JiraIssueLinks>())));
 
-        issues.Add(new JiraIssue("PROJ-8",
+        // 8 blocks 9
+        var issue8Links = new List<JiraIssueLinks>
+        {
+            new(new IssueLinkType("is blocked by", "blocks"),
+                null,
+                new JiraIssue("PROJ-9", null))
+        };
+        var issue8 = new JiraIssue("PROJ-8",
             new JiraIssueFields("Big important epic 2",
                 new JiraIssueParentEpic(string.Empty),
                 new JiraIssueType("Epic"),
                 new JiraIssueStatus("Done"),
-                new List<JiraIssueLinks>())));
+                issue8Links));
+        issues.Add(issue8);
 
-        issues.Add(new JiraIssue("PROJ-9",
+        // 9 is blocked by 8
+        var issue9Links = new List<JiraIssueLinks>
+        {
+            new(new IssueLinkType("is blocked by", "blocks"),
+                new JiraIssue("PROJ-8", null),
+                null)
+        };
+        var issue9 = new JiraIssue("PROJ-9",
             new JiraIssueFields("Task in epic 2",
                 new JiraIssueParentEpic("PROJ-8"),
                 new JiraIssueType("Task"),
                 new JiraIssueStatus("Done"),
-                new List<JiraIssueLinks>())));
+                issue9Links));
+        issues.Add(issue9);
 
 
         _painter.PaintData(issues.AsReadOnly());
