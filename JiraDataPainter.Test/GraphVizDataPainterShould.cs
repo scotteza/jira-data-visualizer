@@ -24,7 +24,7 @@ internal class GraphVizDataPainterShould
 		PROJ_5 [shape=""rectangle"" style=""filled"" fillcolor=""pink"" label=""PROJ-5\nTask in epic"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-5"" target=""_blank""];
 		PROJ_6 [shape=""rectangle"" style=""filled"" fillcolor=""pink"" label=""PROJ-6\nBug in epic"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-6"" target=""_blank""];
 		PROJ_7 [shape=""rectangle"" style=""filled"" fillcolor=""yellow"" label=""PROJ-7\nStory in epic"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-7"" target=""_blank""];
-		label = ""PROJ-4\nBig important epic"";
+		label = ""PROJ-4\nBig important epic 1 with \""quotes\"" in the name"";
 		bgcolor=""azure""
 	}
 	subgraph cluster_1 {
@@ -33,7 +33,7 @@ internal class GraphVizDataPainterShould
 		bgcolor=""azure""
 	}
 	subgraph cluster_2 {
-		PROJ_1 [shape=""rectangle"" style=""filled"" fillcolor=""white"" label=""PROJ-1\nTesting 123 Task Without Epic"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-1"" target=""_blank""];
+		PROJ_1 [shape=""rectangle"" style=""filled"" fillcolor=""white"" label=""PROJ-1\nTesting 123 Task Without Epic that has \""quotes\"" in the name"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-1"" target=""_blank""];
 		PROJ_2 [shape=""rectangle"" style=""filled"" fillcolor=""pink"" label=""PROJ-2\nTesting 123 Bug Without Epic"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-2"" target=""_blank""];
 		PROJ_3 [shape=""rectangle"" style=""filled"" fillcolor=""lightgreen"" label=""PROJ-3\nTesting 123 Story Without Epic"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-3"" target=""_blank""];
 		label = ""No epic"";
@@ -49,7 +49,7 @@ internal class GraphVizDataPainterShould
         var issues = new List<JiraIssue>();
 
         issues.Add(new JiraIssue("PROJ-1",
-            new JiraIssueFields("Testing 123 Task Without Epic",
+            new JiraIssueFields("Testing 123 Task Without Epic that has \"quotes\" in the name",
                 new JiraIssueParentEpic(string.Empty),
                 new JiraIssueType("Task"),
                 new JiraIssueStatus("Unknown Status"),
@@ -73,7 +73,7 @@ internal class GraphVizDataPainterShould
             "https://my-jira-domain.atlassian.net/rest/api/3/issue/10058"));
 
         issues.Add(new JiraIssue("PROJ-4",
-            new JiraIssueFields("Big important epic",
+            new JiraIssueFields("Big important epic 1 with \"quotes\" in the name",
                 new JiraIssueParentEpic(string.Empty),
                 new JiraIssueType("Epic"),
                 new JiraIssueStatus("To Do"),

@@ -39,7 +39,7 @@ public class GraphVizDataPainter : IDataPainter
 
             PaintEpicSubIssues(issues, sb, epic);
 
-            sb.AppendLine($"\t\tlabel = \"{epic.Key}\\n{epic.Summary}\";");
+            sb.AppendLine($"\t\tlabel = \"{epic.Key}\\n{epic.Summary.Replace("\"","\\\"")}\";");
             sb.AppendLine("\t\tbgcolor=\"azure\"");
             sb.AppendLine("\t}");
 
@@ -92,7 +92,7 @@ public class GraphVizDataPainter : IDataPainter
     private string GetGraphVizStringForIssue(JiraIssue issue)
     {
         var nodeKey = GetNodeKey(issue);
-        return $"{nodeKey} [shape=\"rectangle\" style=\"filled\" fillcolor=\"{GetFillColorForStatus(issue.Status)}\" label=\"{issue.Key}\\n{issue.Summary}\" URL=\"{issue.GetFrontendUrl()}\" target=\"_blank\"];";
+        return $"{nodeKey} [shape=\"rectangle\" style=\"filled\" fillcolor=\"{GetFillColorForStatus(issue.Status)}\" label=\"{issue.Key}\\n{issue.Summary.Replace("\"","\\\"")}\" URL=\"{issue.GetFrontendUrl()}\" target=\"_blank\"];";
     }
 
     private string GetFillColorForStatus(string status)
