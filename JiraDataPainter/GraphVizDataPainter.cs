@@ -40,7 +40,9 @@ public class GraphVizDataPainter : IDataPainter
             PaintEpicSubIssues(issues, sb, epic);
 
             sb.AppendLine($"\t\tlabel = \"{epic.Key}\\n{epic.Summary.Replace("\"","\\\"")}\";");
-            sb.AppendLine("\t\tbgcolor=\"azure\"");
+            sb.AppendLine($"\t\tURL=\"{epic.GetFrontendUrl()}\";");
+            sb.AppendLine($"\t\ttarget=\"_blank\";");
+            sb.AppendLine("\t\tbgcolor=\"azure\";");
             sb.AppendLine("\t}");
 
             subGraphClusterIndex++;
@@ -74,7 +76,7 @@ public class GraphVizDataPainter : IDataPainter
         }
 
         sb.AppendLine($"\t\tlabel = \"No epic\";");
-        sb.AppendLine("\t\tbgcolor=\"lavender\"");
+        sb.AppendLine("\t\tbgcolor=\"lavender\";");
         sb.AppendLine("\t}");
     }
 

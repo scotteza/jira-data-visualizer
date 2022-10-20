@@ -25,19 +25,23 @@ internal class GraphVizDataPainterShould
 		PROJ_6 [shape=""rectangle"" style=""filled"" fillcolor=""pink"" label=""PROJ-6\nBug in epic"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-6"" target=""_blank""];
 		PROJ_7 [shape=""rectangle"" style=""filled"" fillcolor=""yellow"" label=""PROJ-7\nStory in epic"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-7"" target=""_blank""];
 		label = ""PROJ-4\nBig important epic 1 with \""quotes\"" in the name"";
-		bgcolor=""azure""
+		URL=""https://my-jira-domain.atlassian.net/browse/PROJ-4"";
+		target=""_blank"";
+		bgcolor=""azure"";
 	}
 	subgraph cluster_1 {
 		PROJ_9 [shape=""rectangle"" style=""filled"" fillcolor=""lightgreen"" label=""PROJ-9\nTask in epic 2"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-9"" target=""_blank""];
 		label = ""PROJ-8\nBig important epic 2"";
-		bgcolor=""azure""
+		URL=""https://my-jira-domain.atlassian.net/browse/PROJ-8"";
+		target=""_blank"";
+		bgcolor=""azure"";
 	}
 	subgraph cluster_2 {
 		PROJ_1 [shape=""rectangle"" style=""filled"" fillcolor=""white"" label=""PROJ-1\nTesting 123 Task Without Epic that has \""quotes\"" in the name"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-1"" target=""_blank""];
 		PROJ_2 [shape=""rectangle"" style=""filled"" fillcolor=""pink"" label=""PROJ-2\nTesting 123 Bug Without Epic"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-2"" target=""_blank""];
 		PROJ_3 [shape=""rectangle"" style=""filled"" fillcolor=""lightgreen"" label=""PROJ-3\nTesting 123 Story Without Epic"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-3"" target=""_blank""];
 		label = ""No epic"";
-		bgcolor=""lavender""
+		bgcolor=""lavender"";
 	}
 
 	PROJ_8->PROJ_9
