@@ -92,7 +92,7 @@ public class GraphVizDataPainter : IDataPainter
     private string GetGraphVizStringForIssue(JiraIssue issue)
     {
         var nodeKey = GetNodeKey(issue);
-        return $"{nodeKey} [shape=\"rectangle\" style=\"filled\" fillcolor=\"{GetFillColorForStatus(issue.Status)}\" label=\"{issue.Key}\\n{issue.IssueType}\\n{issue.Summary}\" URL=\"{issue.GetFrontendUrl()}\" target=\"_blank\"];";
+        return $"{nodeKey} [shape=\"rectangle\" style=\"filled\" fillcolor=\"{GetFillColorForStatus(issue.Status)}\" label=\"{issue.Key}\\n{issue.Summary}\" URL=\"{issue.GetFrontendUrl()}\" target=\"_blank\"];";
     }
 
     private string GetFillColorForStatus(string status)
