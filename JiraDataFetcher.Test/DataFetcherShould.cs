@@ -6,7 +6,6 @@ namespace JiraDataFetcher.Test;
 
 internal class DataFetcherShould
 {
-    // TODO: add links and status checks to tickets
     [Test]
     public async Task Fetch_A_Jira_Issue_Without_A_Parent_Epic()
     {
@@ -29,6 +28,7 @@ internal class DataFetcherShould
         Assert.That(result.ParentEpicKey, Is.Empty);
         Assert.That(result.IssueType, Is.EqualTo("Task"));
         Assert.That(result.Status, Is.EqualTo("To Do"));
+        Assert.That(result.GetFrontendUrl(), Is.EqualTo("https://my-jira-domain.atlassian.net/browse/PROJ-1"));
     }
 
     private string GetRealisticJiraSingleIssueWithoutEpicHttpResponse()
@@ -72,20 +72,19 @@ internal class DataFetcherShould
 
 
 
-    // TODO: add links and status checks to tickets
     [Test]
     public async Task Fetch_A_Jira_Issue_With_A_Parent_Epic()
     {
         var httpGetter = new Mock<IHttpGetter>(MockBehavior.Strict);
 
         var httpResult = GetRealisticJiraSingleIssueWithEpicHttpResponse();
-        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-1?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
+        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-5?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
 
 
         var dataFetcher = new DataFetcher(httpGetter.Object, "my-jira-domain", "username", "password");
 
 
-        var result = await dataFetcher.FetchIssue("PROJ-1");
+        var result = await dataFetcher.FetchIssue("PROJ-5");
 
 
         httpGetter.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
@@ -95,6 +94,7 @@ internal class DataFetcherShould
         Assert.That(result.ParentEpicKey, Is.EqualTo("PROJ-4"));
         Assert.That(result.IssueType, Is.EqualTo("Task"));
         Assert.That(result.Status, Is.EqualTo("In Progress"));
+        Assert.That(result.GetFrontendUrl(), Is.EqualTo("https://my-jira-domain.atlassian.net/browse/PROJ-5"));
     }
 
     private string GetRealisticJiraSingleIssueWithEpicHttpResponse()

@@ -7,6 +7,9 @@ public class JiraIssue
     [JsonPropertyName("key")]
     public string Key { get; }
 
+    [JsonPropertyName("self")]
+    public string Self { get; }
+
     // TODO: it would be nice if this property wasn't public
     [JsonPropertyName("fields")]
     public JiraIssueFields? Fields { get; }
@@ -59,9 +62,16 @@ public class JiraIssue
             .AsReadOnly();
     }
 
-    public JiraIssue(string key, JiraIssueFields fields)
+    public JiraIssue(string key, JiraIssueFields fields, string self)
     {
         Key = key;
         Fields = fields;
+        Self = self;
+    }
+
+    public string GetFrontendUrl()
+    {
+        var prefix = Self.Split(@"/rest/api/3/issue").First();
+        return $"{prefix}/browse/{Key}";
     }
 }
