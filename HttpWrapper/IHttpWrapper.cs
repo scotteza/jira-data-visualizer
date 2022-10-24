@@ -3,5 +3,5 @@
 public interface IHttpWrapper
 {
     Task<string> GetWithBasicAuthentication(string baseAddress, string requestUri, string username, string password);
-    Task<string> Post(string baseAddress, string requestUri, string body);
+    Task<string> PostWithBasicAuthentication(string baseAddress, string requestUri, string body, string username, string password);
 }

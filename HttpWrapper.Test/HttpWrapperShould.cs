@@ -28,11 +28,13 @@ internal class HttpWrapperShould
         const string address = "http://httpbin.org";
         const string requestUri = "/post";
         const string body = "abc 123";
+        const string username = "foo";
+        const string password = "bar";
 
         var httpWrapper = new HttpWrapper();
 
 
-        var result = await httpWrapper.Post(address, requestUri, body);
+        var result = await httpWrapper.PostWithBasicAuthentication(address, requestUri, body, username, password);
 
 
         Assert.That(result, Does.Contain("\"data\": \"abc 123\", "));

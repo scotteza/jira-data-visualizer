@@ -28,12 +28,14 @@ public class HttpWrapper : IHttpWrapper
         return Convert.ToBase64String(textAsBytes);
     }
 
-    public async Task<string> Post(string baseAddress, string requestUri, string body)
+    public async Task<string> PostWithBasicAuthentication(string baseAddress, string requestUri, string body, string username, string password)
     {
         var httpClient = new HttpClient
         {
             BaseAddress = new Uri(baseAddress)
         };
+
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Basic {Base64Encode($"{username}:{password}")}");
 
         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
