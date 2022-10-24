@@ -39,7 +39,9 @@ public class HttpWrapper : IHttpWrapper
 
         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-        var response = await httpClient.PostAsync(requestUri, new StringContent(body));
+        var content = new StringContent(body, Encoding.UTF8, "application/json");
+
+        var response = await httpClient.PostAsync(requestUri, content);
         var responseContent = await response.Content.ReadAsStringAsync();
 
         return responseContent;

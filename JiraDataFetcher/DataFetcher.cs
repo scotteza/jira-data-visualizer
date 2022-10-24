@@ -41,9 +41,12 @@ public class DataFetcher : IDataFetcher
 
         while (!completedSearching)
         {
-            var response = await _httpWrapper.GetWithBasicAuthentication(
+            var body = @$"{{""jql"": ""project = {projectName}"",""maxResults"": {resultsPerPage},""fieldsByKeys"": false,""fields"": [""key"",""summary"",""issuetype"",""parent"",""issuelinks"",""status""],""startAt"": {startAt}}}";
+
+            var response = await _httpWrapper.PostWithBasicAuthentication(
                 $"https://{_jiraDomain}.atlassian.net",
-                $"/rest/api/3/search?jql=project={projectName}+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults={resultsPerPage}&startAt={startAt}",
+                "/rest/api/3/search",
+                body,
                 _username,
                 _password);
 

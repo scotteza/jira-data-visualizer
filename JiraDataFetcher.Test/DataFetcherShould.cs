@@ -669,12 +669,12 @@ internal class DataFetcherShould
     {
         var httpWrapper = new Mock<IHttpWrapper>(MockBehavior.Strict);
 
-        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=0", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page1()));
-        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=2", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page2()));
-        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=4", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page3()));
-        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=6", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page4()));
-        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=8", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page5()));
-        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=10", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page6()));
+        httpWrapper.Setup(x => x.PostWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search", "{\"jql\": \"project = PROJ\",\"maxResults\": 2,\"fieldsByKeys\": false,\"fields\": [\"key\",\"summary\",\"issuetype\",\"parent\",\"issuelinks\",\"status\"],\"startAt\": 0}", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page1()));
+        httpWrapper.Setup(x => x.PostWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search", "{\"jql\": \"project = PROJ\",\"maxResults\": 2,\"fieldsByKeys\": false,\"fields\": [\"key\",\"summary\",\"issuetype\",\"parent\",\"issuelinks\",\"status\"],\"startAt\": 2}", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page2()));
+        httpWrapper.Setup(x => x.PostWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search", "{\"jql\": \"project = PROJ\",\"maxResults\": 2,\"fieldsByKeys\": false,\"fields\": [\"key\",\"summary\",\"issuetype\",\"parent\",\"issuelinks\",\"status\"],\"startAt\": 4}", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page3()));
+        httpWrapper.Setup(x => x.PostWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search", "{\"jql\": \"project = PROJ\",\"maxResults\": 2,\"fieldsByKeys\": false,\"fields\": [\"key\",\"summary\",\"issuetype\",\"parent\",\"issuelinks\",\"status\"],\"startAt\": 6}", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page4()));
+        httpWrapper.Setup(x => x.PostWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search", "{\"jql\": \"project = PROJ\",\"maxResults\": 2,\"fieldsByKeys\": false,\"fields\": [\"key\",\"summary\",\"issuetype\",\"parent\",\"issuelinks\",\"status\"],\"startAt\": 8}", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page5()));
+        httpWrapper.Setup(x => x.PostWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search", "{\"jql\": \"project = PROJ\",\"maxResults\": 2,\"fieldsByKeys\": false,\"fields\": [\"key\",\"summary\",\"issuetype\",\"parent\",\"issuelinks\",\"status\"],\"startAt\": 10}", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page6()));
 
 
         var dataFetcher = new DataFetcher(httpWrapper.Object, "my-jira-domain", "username", "password");
@@ -683,7 +683,7 @@ internal class DataFetcherShould
         var result = await dataFetcher.SearchIssues("PROJ", 2);
 
 
-        httpWrapper.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(6));
+        httpWrapper.Verify(x => x.PostWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(6));
 
         var issues = result.GetIssues();
         Assert.That(issues.Count, Is.EqualTo(12));
