@@ -40,7 +40,7 @@ internal class GraphVizDataPainterShould
 		PROJ_1 [shape=""rectangle"" style=""filled"" fillcolor=""white"" label=""PROJ-1\nTesting 123 Task Without Epic that has \""quotes\"" in the name"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-1"" target=""_blank""];
 		PROJ_2 [shape=""rectangle"" style=""filled"" fillcolor=""pink"" label=""PROJ-2\nTesting 123 Bug Without Epic"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-2"" target=""_blank""];
 		PROJ_3 [shape=""rectangle"" style=""filled"" fillcolor=""lightgreen"" label=""PROJ-3\nTesting 123 Story Without Epic"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-3"" target=""_blank""];
-		label = ""No epic"";
+		label = ""No epic or epic not returned in search results"";
 		bgcolor=""lavender"";
 	}
 
@@ -109,6 +109,7 @@ internal class GraphVizDataPainterShould
             "https://my-jira-domain.atlassian.net/rest/api/3/issue/10058"));
 
         // 8 blocks 9
+        // TODO: should this actually be an epic for this test? Should it not be a task, bug, or story?
         var issue8Links = new List<JiraIssueLinks>
         {
             new(new IssueLinkType("is blocked by", "blocks"),
@@ -134,6 +135,64 @@ internal class GraphVizDataPainterShould
         var issue9 = new JiraIssue("PROJ-9",
             new JiraIssueFields("Task in epic 2",
                 new JiraIssueParentEpic("PROJ-8"),
+                new JiraIssueType("Task"),
+                new JiraIssueStatus("Done"),
+                issue9Links),
+            "https://my-jira-domain.atlassian.net/rest/api/3/issue/10058");
+        issues.Add(issue9);
+
+
+        _painter.PaintData(issues.AsReadOnly());
+
+
+        _graphWriter.Verify(x => x.WriteGraph(expectedOutput), Times.Once);
+    }
+
+    [Test]
+    public void Paint_A_Jira_Issue_That_Has_An_Epic_That_Did_Not_Come_Back_In_The_Search_Results()
+    {
+        const string expectedOutput = @"digraph G {
+	subgraph cluster_0 {
+		PROJ_8 [shape=""rectangle"" style=""filled"" fillcolor=""lightgreen"" label=""PROJ-8\nABC 123"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-8"" target=""_blank""];
+		PROJ_9 [shape=""rectangle"" style=""filled"" fillcolor=""lightgreen"" label=""PROJ-9\nDEF 456"" URL=""https://my-jira-domain.atlassian.net/browse/PROJ-9"" target=""_blank""];
+		label = ""No epic or epic not returned in search results"";
+		bgcolor=""lavender"";
+	}
+
+	PROJ_8->PROJ_9
+}
+";
+        _graphWriter.Setup(x => x.WriteGraph(expectedOutput));
+
+        // ReSharper disable once UseObjectOrCollectionInitializer
+        var issues = new List<JiraIssue>();
+
+        // 8 blocks 9
+        var issue8Links = new List<JiraIssueLinks>
+        {
+            new(new IssueLinkType("is blocked by", "blocks"),
+                null,
+                new JiraIssue("PROJ-9", null, "https://my-jira-domain.atlassian.net/rest/api/3/issue/10058"))
+        };
+        var issue8 = new JiraIssue("PROJ-8",
+            new JiraIssueFields("ABC 123",
+                new JiraIssueParentEpic("PROJ_999"),
+                new JiraIssueType("Task"),
+                new JiraIssueStatus("Done"),
+                issue8Links),
+            "https://my-jira-domain.atlassian.net/rest/api/3/issue/10058");
+        issues.Add(issue8);
+
+        // 9 is blocked by 8
+        var issue9Links = new List<JiraIssueLinks>
+        {
+            new(new IssueLinkType("is blocked by", "blocks"),
+                new JiraIssue("PROJ-8", null, "https://my-jira-domain.atlassian.net/rest/api/3/issue/10058"),
+                null)
+        };
+        var issue9 = new JiraIssue("PROJ-9",
+            new JiraIssueFields("DEF 456",
+                new JiraIssueParentEpic("PROJ-555"),
                 new JiraIssueType("Task"),
                 new JiraIssueStatus("Done"),
                 issue9Links),
