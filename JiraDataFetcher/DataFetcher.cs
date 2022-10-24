@@ -1,9 +1,8 @@
 ﻿using HttpWrapper;
+using JiraDataFetcher;
 using JiraDataFetcher.DTO;
 using JiraDataFetcher.DTO.SearchResults;
 using System.Text.Json;
-
-namespace JiraDataFetcher;
 
 public class DataFetcher : IDataFetcher
 {
@@ -33,7 +32,7 @@ public class DataFetcher : IDataFetcher
         return jiraIssue ?? throw new InvalidOperationException("Deserialized Jira issue was null");
     }
 
-    public async Task<JiraIssueSearchResult> SearchIssues(string projectName, int resultsPerPage)
+    public async Task<JiraIssueSearchResult> SearchIssues(string jql, int resultsPerPage)
     {
         var startAt = 0;
         var completedSearching = false;
@@ -41,7 +40,7 @@ public class DataFetcher : IDataFetcher
 
         while (!completedSearching)
         {
-            var body = @$"{{""jql"": ""project = {projectName}"",""maxResults"": {resultsPerPage},""fieldsByKeys"": false,""fields"": [""key"",""summary"",""issuetype"",""parent"",""issuelinks"",""status""],""startAt"": {startAt}}}";
+            var body = JsonSerializer.Serialize(new JiraSearchRequest(jql, resultsPerPage, startAt));
 
             var response = await _httpWrapper.PostWithBasicAuthentication(
                 $"https://{_jiraDomain}.atlassian.net",

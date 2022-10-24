@@ -6,5 +6,5 @@ namespace JiraDataFetcher;
 public interface IDataFetcher
 {
     Task<JiraIssue> FetchIssue(string key);
-    Task<JiraIssueSearchResult> SearchIssues(string projectName, int resultsPerPage);
+    Task<JiraIssueSearchResult> SearchIssues(string jql, int resultsPerPage);
 }
