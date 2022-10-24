@@ -3,7 +3,7 @@ using System.Text;
 
 namespace HttpWrapper;
 
-public class HttpGetter : IHttpGetter
+public class HttpWrapper : IHttpWrapper
 {
     public async Task<string> GetWithBasicAuthentication(string baseAddress, string requestUri, string username, string password)
     {
@@ -26,5 +26,20 @@ public class HttpGetter : IHttpGetter
     {
         var textAsBytes = Encoding.GetEncoding("ISO-8859-1").GetBytes(textToEncode);
         return Convert.ToBase64String(textAsBytes);
+    }
+
+    public async Task<string> Post(string baseAddress, string requestUri, string body)
+    {
+        var httpClient = new HttpClient
+        {
+            BaseAddress = new Uri(baseAddress)
+        };
+
+        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        var response = await httpClient.PostAsync(requestUri, new StringContent(body));
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        return responseContent;
     }
 }

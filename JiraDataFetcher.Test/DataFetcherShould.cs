@@ -9,19 +9,19 @@ internal class DataFetcherShould
     [Test]
     public async Task Fetch_A_Jira_Issue_Without_A_Parent_Epic()
     {
-        var httpGetter = new Mock<IHttpGetter>(MockBehavior.Strict);
+        var httpWrapper = new Mock<IHttpWrapper>(MockBehavior.Strict);
 
         var httpResult = GetRealisticJiraSingleIssueWithoutEpicHttpResponse();
-        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-1?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-1?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
 
 
-        var dataFetcher = new DataFetcher(httpGetter.Object, "my-jira-domain", "username", "password");
+        var dataFetcher = new DataFetcher(httpWrapper.Object, "my-jira-domain", "username", "password");
 
 
         var result = await dataFetcher.FetchIssue("PROJ-1");
 
 
-        httpGetter.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        httpWrapper.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 
         Assert.That(result.Key, Is.EqualTo("PROJ-1"));
         Assert.That(result.Summary, Is.EqualTo("Testing 123 Task Without Epic"));
@@ -75,19 +75,19 @@ internal class DataFetcherShould
     [Test]
     public async Task Fetch_A_Jira_Issue_With_A_Parent_Epic()
     {
-        var httpGetter = new Mock<IHttpGetter>(MockBehavior.Strict);
+        var httpWrapper = new Mock<IHttpWrapper>(MockBehavior.Strict);
 
         var httpResult = GetRealisticJiraSingleIssueWithEpicHttpResponse();
-        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-5?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-5?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
 
 
-        var dataFetcher = new DataFetcher(httpGetter.Object, "my-jira-domain", "username", "password");
+        var dataFetcher = new DataFetcher(httpWrapper.Object, "my-jira-domain", "username", "password");
 
 
         var result = await dataFetcher.FetchIssue("PROJ-5");
 
 
-        httpGetter.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        httpWrapper.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 
         Assert.That(result.Key, Is.EqualTo("PROJ-5"));
         Assert.That(result.Summary, Is.EqualTo("Task in epic"));
@@ -181,19 +181,19 @@ internal class DataFetcherShould
     [Test]
     public async Task Fetch_An_Issue_That_Blocks_Others()
     {
-        var httpGetter = new Mock<IHttpGetter>(MockBehavior.Strict);
+        var httpWrapper = new Mock<IHttpWrapper>(MockBehavior.Strict);
 
         var httpResult = GetRealisticJiraBlockerIssueHttpResponse();
-        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-9?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-9?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
 
 
-        var dataFetcher = new DataFetcher(httpGetter.Object, "my-jira-domain", "username", "password");
+        var dataFetcher = new DataFetcher(httpWrapper.Object, "my-jira-domain", "username", "password");
 
 
         var result = await dataFetcher.FetchIssue("PROJ-9");
 
 
-        httpGetter.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        httpWrapper.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 
         Assert.That(result.Key, Is.EqualTo("PROJ-9"));
         var blockedIssues = result.GetIssuesThatIBlock();
@@ -398,19 +398,19 @@ internal class DataFetcherShould
     [Test]
     public async Task Fetch_A_Blocked_Issue()
     {
-        var httpGetter = new Mock<IHttpGetter>(MockBehavior.Strict);
+        var httpWrapper = new Mock<IHttpWrapper>(MockBehavior.Strict);
 
         var httpResult = GetRealisticJiraBlockedIssueHttpResponse();
-        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-9?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-9?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
 
 
-        var dataFetcher = new DataFetcher(httpGetter.Object, "my-jira-domain", "username", "password");
+        var dataFetcher = new DataFetcher(httpWrapper.Object, "my-jira-domain", "username", "password");
 
 
         var result = await dataFetcher.FetchIssue("PROJ-9");
 
 
-        httpGetter.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        httpWrapper.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 
         Assert.That(result.Key, Is.EqualTo("PROJ-8"));
         var blockedIssues = result.GetIssuesThatBlockMe();
@@ -667,23 +667,23 @@ internal class DataFetcherShould
     [Test]
     public async Task Search_For_Jira_Issues()
     {
-        var httpGetter = new Mock<IHttpGetter>(MockBehavior.Strict);
+        var httpWrapper = new Mock<IHttpWrapper>(MockBehavior.Strict);
 
-        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=0", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page1()));
-        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=2", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page2()));
-        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=4", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page3()));
-        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=6", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page4()));
-        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=8", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page5()));
-        httpGetter.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=10", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page6()));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=0", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page1()));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=2", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page2()));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=4", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page3()));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=6", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page4()));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=8", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page5()));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/search?jql=project=PROJ+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults=2&startAt=10", "username", "password")).Returns(Task.FromResult(GetRealisticJiraSearchHttpResponse_Page6()));
 
 
-        var dataFetcher = new DataFetcher(httpGetter.Object, "my-jira-domain", "username", "password");
+        var dataFetcher = new DataFetcher(httpWrapper.Object, "my-jira-domain", "username", "password");
 
 
         var result = await dataFetcher.SearchIssues("PROJ", 2);
 
 
-        httpGetter.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(6));
+        httpWrapper.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(6));
 
         var issues = result.GetIssues();
         Assert.That(issues.Count, Is.EqualTo(12));
@@ -766,7 +766,7 @@ internal class DataFetcherShould
         Assert.That(issues[8].GetIssuesThatIBlock()[1], Is.EqualTo("PROJ-10"));
         Assert.That(issues[8].GetIssuesThatBlockMe(), Has.Count.EqualTo(1));
         Assert.That(issues[8].GetIssuesThatBlockMe()[0], Is.EqualTo("PROJ-12"));
-        
+
         Assert.That(issues[9].Key, Is.EqualTo("PROJ-10"));
         Assert.That(issues[9].Summary, Is.EqualTo("A random story"));
         Assert.That(issues[9].ParentEpicKey, Is.Empty);
@@ -785,7 +785,7 @@ internal class DataFetcherShould
         Assert.That(issues[10].GetIssuesThatIBlock(), Has.Count.EqualTo(1));
         Assert.That(issues[10].GetIssuesThatIBlock()[0], Is.EqualTo("PROJ-8"));
         Assert.That(issues[10].GetIssuesThatBlockMe(), Is.Empty);
-        
+
         Assert.That(issues[11].Key, Is.EqualTo("PROJ-12"));
         Assert.That(issues[11].Summary, Is.EqualTo("Misc issue ABC"));
         Assert.That(issues[11].ParentEpicKey, Is.Empty);
@@ -1782,7 +1782,7 @@ internal class DataFetcherShould
 }
 ";
     }
-    
+
     private string GetRealisticJiraSearchHttpResponse_Page6()
     {
         return @"{

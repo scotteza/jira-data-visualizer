@@ -15,7 +15,7 @@ internal class Program
         var issueKey = fileLines[3];
         var projectName = fileLines[4];
 
-        var dataFetcher = new DataFetcher(new HttpGetter(), jiraDomain, username, password);
+        var dataFetcher = new DataFetcher(new HttpWrapper.HttpWrapper(), jiraDomain, username, password);
         var dataPainter = new GraphVizDataPainter(new GraphVizGraphWriter());
 
         var issue = await dataFetcher.FetchIssue(issueKey);

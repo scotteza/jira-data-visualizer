@@ -7,14 +7,14 @@ namespace JiraDataFetcher;
 
 public class DataFetcher : IDataFetcher
 {
-    private readonly IHttpGetter _httpGetter;
+    private readonly IHttpWrapper _httpWrapper;
     private readonly string _jiraDomain;
     private readonly string _username;
     private readonly string _password;
 
-    public DataFetcher(IHttpGetter httpGetter, string jiraDomain, string username, string password)
+    public DataFetcher(IHttpWrapper httpWrapper, string jiraDomain, string username, string password)
     {
-        _httpGetter = httpGetter;
+        _httpWrapper = httpWrapper;
         _jiraDomain = jiraDomain;
         _username = username;
         _password = password;
@@ -22,7 +22,7 @@ public class DataFetcher : IDataFetcher
 
     public async Task<JiraIssue> FetchIssue(string key)
     {
-        var response = await _httpGetter.GetWithBasicAuthentication(
+        var response = await _httpWrapper.GetWithBasicAuthentication(
             $"https://{_jiraDomain}.atlassian.net",
             $"/rest/api/3/issue/{key}?fields=key,summary,issuetype,parent,issuelinks,status",
             _username,
@@ -41,7 +41,7 @@ public class DataFetcher : IDataFetcher
 
         while (!completedSearching)
         {
-            var response = await _httpGetter.GetWithBasicAuthentication(
+            var response = await _httpWrapper.GetWithBasicAuthentication(
                 $"https://{_jiraDomain}.atlassian.net",
                 $"/rest/api/3/search?jql=project={projectName}+order+by+key+ASC&fields=key,summary,issuetype,parent,issuelinks,status&maxResults={resultsPerPage}&startAt={startAt}",
                 _username,
