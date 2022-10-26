@@ -112,8 +112,10 @@ public class GraphVizDataPainter : IDataPainter
         return status switch
         {
             "To Do" => "pink",
+            "Selected for Development" => "pink",
             "In Progress" => "yellow",
             "Done" => "lightgreen",
+            "Blocked" => "lavender",
             _ => "white"
         };
     }
