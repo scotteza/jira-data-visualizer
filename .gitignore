@@ -682,3 +682,6 @@ fabric.properties
 
 # Secrets
 Token.txt
+
+# Mac files
+.DS_Store
