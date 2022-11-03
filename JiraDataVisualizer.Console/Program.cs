@@ -22,6 +22,10 @@ internal class Program
         for (var i = 4; i < fileLines.Length; i++)
         {
             var jqlSearchString = fileLines[i];
+            if (jqlSearchString.StartsWith("#"))
+            {
+                continue;
+            }
             await visualizer.Visualize(jqlSearchString);
         }
     }
