@@ -1,6 +1,4 @@
-﻿using HttpWrapper;
-using JiraDataFetcher;
-using JiraDataPainter;
+﻿using JiraDataPainter;
 
 namespace JiraDataVisualizer.Console;
 
@@ -13,7 +11,6 @@ internal class Program
         var username = fileLines[1];
         var password = fileLines[2];
         var issueKey = fileLines[3];
-        var projectName = fileLines[4];
 
         var dataFetcher = new DataFetcher(new HttpWrapper.HttpWrapper(), jiraDomain, username, password);
         var dataPainter = new GraphVizDataPainter(new GraphVizGraphWriter());
@@ -22,6 +19,10 @@ internal class Program
 
         var visualizer = new Visualizer(dataFetcher, dataPainter);
 
-        await visualizer.Visualize(projectName);
+        for (var i = 4; i < fileLines.Length; i++)
+        {
+            var jqlSearchString = fileLines[i];
+            await visualizer.Visualize(jqlSearchString);
+        }
     }
 }
