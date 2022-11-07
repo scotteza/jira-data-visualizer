@@ -115,6 +115,7 @@ public class GraphVizDataPainter : IDataPainter
             "Selected for Development" => "pink",
             "In Progress" => "yellow",
             "Done" => "lightgreen",
+            "Closed" => "teal",
             "Blocked" => "lavender",
             _ => "white"
         };
