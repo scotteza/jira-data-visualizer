@@ -116,6 +116,7 @@ public class GraphVizDataPainter : IDataPainter
             "In Progress" => "yellow",
             "Done" => "lightgreen",
             "Closed" => "teal",
+            "Deprecated" => "gray",
             "Blocked" => "lavender",
             _ => "white"
         };
