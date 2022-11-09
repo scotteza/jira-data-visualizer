@@ -113,6 +113,10 @@ public class GraphVizDataPainter : IDataPainter
         {
             "To Do" => "pink",
             "Selected for Development" => "pink",
+            "Important" => "pink",
+            "Urgent" => "pink",
+            "Important + Urgent" => "red",
+            "Low Priority" => "floralwhite",
             "In Progress" => "yellow",
             "Done" => "lightgreen",
             "Closed" => "teal",
