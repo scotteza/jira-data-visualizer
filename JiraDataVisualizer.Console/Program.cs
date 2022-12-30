@@ -27,6 +27,7 @@ internal class Program
                 continue;
             }
             await visualizer.Visualize(jqlSearchString);
+            Thread.Sleep(2000);
         }
     }
 }
