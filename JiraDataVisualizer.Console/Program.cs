@@ -1,4 +1,5 @@
-﻿using JiraDataPainter;
+﻿using JiraDataFetcher;
+using JiraDataPainter;
 
 namespace JiraDataVisualizer.Console;
 

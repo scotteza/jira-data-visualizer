@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Globalization;
+using System.Text.Json.Serialization;
 
 namespace JiraDataFetcher.DTO;
 
@@ -29,6 +30,10 @@ public class JiraIssue
     public string Status => Fields?.Status != null
                                     ? Fields.Status.Name
                                     : string.Empty;
+
+    public JiraCommentCollection Comments => Fields?.Comments != null
+                                    ? Fields.Comments
+                                    : new JiraCommentCollection();
 
     public IReadOnlyList<string> GetIssuesThatIBlock()
     {
@@ -73,5 +78,28 @@ public class JiraIssue
     {
         var prefix = Self.Split(@"/rest/api/3/issue").First();
         return $"{prefix}/browse/{Key}";
+    }
+
+    public List<DeNormalizedJiraComment> GetComments()
+    {
+        var result = new List<DeNormalizedJiraComment>();
+
+        foreach (var comment in this.Comments.Comments)
+        {
+            var createdDate = DateTime.ParseExact(comment.CreatedDate, "yyyy-MM-dd'T'HH:mm:ss.fffK", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+            var updatedDate = DateTime.ParseExact(comment.UpdatedDate, "yyyy-MM-dd'T'HH:mm:ss.fffK", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+
+            var deNormalizedJiraComment = new DeNormalizedJiraComment(
+                comment.Author.DisplayName,
+                comment.Author.EmailAddress,
+                createdDate,
+                updatedDate,
+                // TODO: this is a textbook Law of Demeter violation
+                comment.Body.Content.First().Content.First().Text);
+
+            result.Add(deNormalizedJiraComment);
+        }
+
+        return result;
     }
 }

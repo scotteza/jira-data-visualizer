@@ -12,7 +12,7 @@ internal class DataFetcherShould
         var httpWrapper = new Mock<IHttpWrapper>(MockBehavior.Strict);
 
         var httpResult = GetRealisticJiraSingleIssueWithoutEpicHttpResponse();
-        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-1?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-1?fields=key,summary,issuetype,parent,issuelinks,status,comment", "username", "password")).Returns(Task.FromResult(httpResult));
 
 
         var dataFetcher = new DataFetcher(httpWrapper.Object, "my-jira-domain", "username", "password");
@@ -78,7 +78,7 @@ internal class DataFetcherShould
         var httpWrapper = new Mock<IHttpWrapper>(MockBehavior.Strict);
 
         var httpResult = GetRealisticJiraSingleIssueWithEpicHttpResponse();
-        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-5?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-5?fields=key,summary,issuetype,parent,issuelinks,status,comment", "username", "password")).Returns(Task.FromResult(httpResult));
 
 
         var dataFetcher = new DataFetcher(httpWrapper.Object, "my-jira-domain", "username", "password");
@@ -151,7 +151,7 @@ internal class DataFetcherShould
                     ""name"": ""Epic"",
                     ""subtask"": false,
                     ""avatarId"": 10307,
-                    ""entityId"": ""6999ad6f-7d10-41c8-bc8a-967c377bac91"",
+                    ""entityId"": ""0c640f1e-c9e5-4c84-acab-9824cbaad1c0"",
                     ""hierarchyLevel"": 1
                 }
             }
@@ -184,7 +184,7 @@ internal class DataFetcherShould
         var httpWrapper = new Mock<IHttpWrapper>(MockBehavior.Strict);
 
         var httpResult = GetRealisticJiraBlockerIssueHttpResponse();
-        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-9?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-9?fields=key,summary,issuetype,parent,issuelinks,status,comment", "username", "password")).Returns(Task.FromResult(httpResult));
 
 
         var dataFetcher = new DataFetcher(httpWrapper.Object, "my-jira-domain", "username", "password");
@@ -401,7 +401,7 @@ internal class DataFetcherShould
         var httpWrapper = new Mock<IHttpWrapper>(MockBehavior.Strict);
 
         var httpResult = GetRealisticJiraBlockedIssueHttpResponse();
-        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-9?fields=key,summary,issuetype,parent,issuelinks,status", "username", "password")).Returns(Task.FromResult(httpResult));
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-9?fields=key,summary,issuetype,parent,issuelinks,status,comment", "username", "password")).Returns(Task.FromResult(httpResult));
 
 
         var dataFetcher = new DataFetcher(httpWrapper.Object, "my-jira-domain", "username", "password");
@@ -856,7 +856,7 @@ internal class DataFetcherShould
                     ""name"": ""Bug"",
                     ""subtask"": false,
                     ""avatarId"": 10303,
-                    ""entityId"": ""0ab48f98-440d-4234-b55a-7ae3109a7180"",
+                    ""entityId"": ""e26d7d8b-4827-4461-b3ac-e0b37612dcb3"",
                     ""hierarchyLevel"": 0
                 },
                 ""issuelinks"": [],
@@ -939,7 +939,7 @@ internal class DataFetcherShould
                     ""name"": ""Epic"",
                     ""subtask"": false,
                     ""avatarId"": 10307,
-                    ""entityId"": ""6999ad6f-7d10-41c8-bc8a-967c377bac91"",
+                    ""entityId"": ""0c640f1e-c9e5-4c84-acab-9824cbaad1c0"",
                     ""hierarchyLevel"": 1
                 },
                 ""issuelinks"": [],
@@ -1024,7 +1024,7 @@ internal class DataFetcherShould
                             ""name"": ""Epic"",
                             ""subtask"": false,
                             ""avatarId"": 10307,
-                            ""entityId"": ""6999ad6f-7d10-41c8-bc8a-967c377bac91"",
+                            ""entityId"": ""0c640f1e-c9e5-4c84-acab-9824cbaad1c0"",
                             ""hierarchyLevel"": 1
                         }
                     }
@@ -1061,7 +1061,7 @@ internal class DataFetcherShould
                     ""name"": ""Bug"",
                     ""subtask"": false,
                     ""avatarId"": 10303,
-                    ""entityId"": ""0ab48f98-440d-4234-b55a-7ae3109a7180"",
+                    ""entityId"": ""e26d7d8b-4827-4461-b3ac-e0b37612dcb3"",
                     ""hierarchyLevel"": 0
                 },
                 ""parent"": {
@@ -1098,7 +1098,7 @@ internal class DataFetcherShould
                             ""name"": ""Epic"",
                             ""subtask"": false,
                             ""avatarId"": 10307,
-                            ""entityId"": ""6999ad6f-7d10-41c8-bc8a-967c377bac91"",
+                            ""entityId"": ""0c640f1e-c9e5-4c84-acab-9824cbaad1c0"",
                             ""hierarchyLevel"": 1
                         }
                     }
@@ -1185,7 +1185,7 @@ internal class DataFetcherShould
                             ""name"": ""Epic"",
                             ""subtask"": false,
                             ""avatarId"": 10307,
-                            ""entityId"": ""6999ad6f-7d10-41c8-bc8a-967c377bac91"",
+                            ""entityId"": ""0c640f1e-c9e5-4c84-acab-9824cbaad1c0"",
                             ""hierarchyLevel"": 1
                         }
                     }
@@ -2014,6 +2014,294 @@ internal class DataFetcherShould
             }
         }
     ]
+}
+";
+    }
+
+
+
+
+    [Test]
+    public async Task Fetch_Comments()
+    {
+        var httpWrapper = new Mock<IHttpWrapper>(MockBehavior.Strict);
+
+        var httpResult = GetRealisticJiraIssueWithCommentsHttpResponse();
+        httpWrapper.Setup(x => x.GetWithBasicAuthentication("https://my-jira-domain.atlassian.net", "/rest/api/3/issue/PROJ-9?fields=key,summary,issuetype,parent,issuelinks,status,comment", "username", "password")).Returns(Task.FromResult(httpResult));
+
+
+        var dataFetcher = new DataFetcher(httpWrapper.Object, "my-jira-domain", "username", "password");
+
+
+        var result = await dataFetcher.FetchIssue("PROJ-9");
+
+
+        httpWrapper.Verify(x => x.GetWithBasicAuthentication(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+
+        Assert.That(result.Key, Is.EqualTo("PROJ-6"));
+
+        var comments = result.GetComments();
+
+        Assert.That(comments.Count, Is.EqualTo(3));
+
+        Assert.That(comments[0].Text, Is.EqualTo("Comment 1"));
+        Assert.That(comments[0].CreatedDate, Is.EqualTo(new DateTime(2022, 12, 30, 22, 15, 49, 070)));
+        Assert.That(comments[0].UpdatedDate, Is.EqualTo(new DateTime(2022, 12, 30, 22, 15, 50, 070)));
+        Assert.That(comments[0].AuthorDisplayName, Is.EqualTo("Bob Smith"));
+        Assert.That(comments[0].AuthorEmailAddress, Is.EqualTo("email_address@gmail.com"));
+
+        Assert.That(comments[1].Text, Is.EqualTo("Comment 2"));
+        Assert.That(comments[1].CreatedDate, Is.EqualTo(new DateTime(2022, 12, 30, 22, 15, 51, 649)));
+        Assert.That(comments[1].UpdatedDate, Is.EqualTo(new DateTime(2022, 12, 30, 22, 15, 51, 649)));
+        Assert.That(comments[1].AuthorDisplayName, Is.EqualTo("Bob Smith 2"));
+        Assert.That(comments[1].AuthorEmailAddress, Is.EqualTo("email_address_2@gmail.com"));
+
+        Assert.That(comments[2].Text, Is.EqualTo("Comment 3"));
+        Assert.That(comments[2].CreatedDate, Is.EqualTo(new DateTime(2022, 12, 30, 22, 15, 56, 744)));
+        Assert.That(comments[2].UpdatedDate, Is.EqualTo(new DateTime(2022, 12, 30, 22, 15, 56, 744)));
+        Assert.That(comments[2].AuthorDisplayName, Is.EqualTo("Bob Smith 3"));
+        Assert.That(comments[2].AuthorEmailAddress, Is.EqualTo("email_address_3@gmail.com"));
+    }
+
+    private string GetRealisticJiraIssueWithCommentsHttpResponse()
+    {
+        return @"{
+    ""expand"": ""renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations"",
+    ""id"": ""10063"",
+    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10063"",
+    ""key"": ""PROJ-6"",
+    ""fields"": {
+        ""summary"": ""Bug in epic"",
+        ""issuetype"": {
+            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issuetype/10013"",
+            ""id"": ""10013"",
+            ""description"": ""Bugs track problems or errors."",
+            ""iconUrl"": ""https://my-jira-domain.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10303?size=medium"",
+            ""name"": ""Bug"",
+            ""subtask"": false,
+            ""avatarId"": 10303,
+            ""entityId"": ""e26d7d8b-4827-4461-b3ac-e0b37612dcb3"",
+            ""hierarchyLevel"": 0
+        },
+        ""parent"": {
+            ""id"": ""10061"",
+            ""key"": ""PROJ-4"",
+            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10061"",
+            ""fields"": {
+                ""summary"": ""Big important epic"",
+                ""status"": {
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10006"",
+                    ""description"": """",
+                    ""iconUrl"": ""https://my-jira-domain.atlassian.net/"",
+                    ""name"": ""To Do"",
+                    ""id"": ""10006"",
+                    ""statusCategory"": {
+                        ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/2"",
+                        ""id"": 2,
+                        ""key"": ""new"",
+                        ""colorName"": ""blue-gray"",
+                        ""name"": ""To Do""
+                    }
+                },
+                ""priority"": {
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/priority/3"",
+                    ""iconUrl"": ""https://my-jira-domain.atlassian.net/images/icons/priorities/medium.svg"",
+                    ""name"": ""Medium"",
+                    ""id"": ""3""
+                },
+                ""issuetype"": {
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issuetype/10011"",
+                    ""id"": ""10011"",
+                    ""description"": ""Epics track collections of related bugs, stories, and tasks."",
+                    ""iconUrl"": ""https://my-jira-domain.atlassian.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10307?size=medium"",
+                    ""name"": ""Epic"",
+                    ""subtask"": false,
+                    ""avatarId"": 10307,
+                    ""entityId"": ""0c640f1e-c9e5-4c84-acab-9824cbaad1c0"",
+                    ""hierarchyLevel"": 1
+                }
+            }
+        },
+        ""comment"": {
+            ""comments"": [
+                {
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10063/comment/10594"",
+                    ""id"": ""10594"",
+                    ""author"": {
+                        ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/user?accountId=557058%3A27610eaf-dfb9-46a8-bf59-799b4d56c29c"",
+                        ""accountId"": ""924aa932-bb6c-46e2-95fd-1f4a9633d779"",
+                        ""emailAddress"": ""email_address@gmail.com"",
+                        ""avatarUrls"": {
+                            ""48x48"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/48"",
+                            ""24x24"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/24"",
+                            ""16x16"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/16"",
+                            ""32x32"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/32""
+                        },
+                        ""displayName"": ""Bob Smith"",
+                        ""active"": true,
+                        ""timeZone"": ""Europe/London"",
+                        ""accountType"": ""atlassian""
+                    },
+                    ""body"": {
+                        ""version"": 1,
+                        ""type"": ""doc"",
+                        ""content"": [
+                            {
+                                ""type"": ""paragraph"",
+                                ""content"": [
+                                    {
+                                        ""type"": ""text"",
+                                        ""text"": ""Comment 1""
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    ""updateAuthor"": {
+                        ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/user?accountId=557058%3A27610eaf-dfb9-46a8-bf59-799b4d56c29c"",
+                        ""accountId"": ""924aa932-bb6c-46e2-95fd-1f4a9633d779"",
+                        ""emailAddress"": ""email_address@gmail.com"",
+                        ""avatarUrls"": {
+                            ""48x48"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/48"",
+                            ""24x24"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/24"",
+                            ""16x16"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/16"",
+                            ""32x32"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/32""
+                        },
+                        ""displayName"": ""Bob Smith"",
+                        ""active"": true,
+                        ""timeZone"": ""Europe/London"",
+                        ""accountType"": ""atlassian""
+                    },
+                    ""created"": ""2022-12-30T22:15:49.070+0000"",
+                    ""updated"": ""2022-12-30T22:15:50.070+0000"",
+                    ""jsdPublic"": true
+                },
+                {
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10063/comment/10595"",
+                    ""id"": ""10595"",
+                    ""author"": {
+                        ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/user?accountId=557058%3A27610eaf-dfb9-46a8-bf59-799b4d56c29c"",
+                        ""accountId"": ""924aa932-bb6c-46e2-95fd-1f4a9633d779"",
+                        ""emailAddress"": ""email_address_2@gmail.com"",
+                        ""avatarUrls"": {
+                            ""48x48"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/48"",
+                            ""24x24"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/24"",
+                            ""16x16"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/16"",
+                            ""32x32"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/32""
+                        },
+                        ""displayName"": ""Bob Smith 2"",
+                        ""active"": true,
+                        ""timeZone"": ""Europe/London"",
+                        ""accountType"": ""atlassian""
+                    },
+                    ""body"": {
+                        ""version"": 1,
+                        ""type"": ""doc"",
+                        ""content"": [
+                            {
+                                ""type"": ""paragraph"",
+                                ""content"": [
+                                    {
+                                        ""type"": ""text"",
+                                        ""text"": ""Comment 2""
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    ""updateAuthor"": {
+                        ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/user?accountId=557058%3A27610eaf-dfb9-46a8-bf59-799b4d56c29c"",
+                        ""accountId"": ""924aa932-bb6c-46e2-95fd-1f4a9633d779"",
+                        ""emailAddress"": ""email_address@gmail.com"",
+                        ""avatarUrls"": {
+                            ""48x48"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/48"",
+                            ""24x24"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/24"",
+                            ""16x16"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/16"",
+                            ""32x32"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/32""
+                        },
+                        ""displayName"": ""Bob Smith"",
+                        ""active"": true,
+                        ""timeZone"": ""Europe/London"",
+                        ""accountType"": ""atlassian""
+                    },
+                    ""created"": ""2022-12-30T22:15:51.649+0000"",
+                    ""updated"": ""2022-12-30T22:15:51.649+0000"",
+                    ""jsdPublic"": true
+                },
+                {
+                    ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10063/comment/10596"",
+                    ""id"": ""10596"",
+                    ""author"": {
+                        ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/user?accountId=557058%3A27610eaf-dfb9-46a8-bf59-799b4d56c29c"",
+                        ""accountId"": ""924aa932-bb6c-46e2-95fd-1f4a9633d779"",
+                        ""emailAddress"": ""email_address_3@gmail.com"",
+                        ""avatarUrls"": {
+                            ""48x48"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/48"",
+                            ""24x24"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/24"",
+                            ""16x16"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/16"",
+                            ""32x32"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/32""
+                        },
+                        ""displayName"": ""Bob Smith 3"",
+                        ""active"": true,
+                        ""timeZone"": ""Europe/London"",
+                        ""accountType"": ""atlassian""
+                    },
+                    ""body"": {
+                        ""version"": 1,
+                        ""type"": ""doc"",
+                        ""content"": [
+                            {
+                                ""type"": ""paragraph"",
+                                ""content"": [
+                                    {
+                                        ""type"": ""text"",
+                                        ""text"": ""Comment 3""
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    ""updateAuthor"": {
+                        ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/user?accountId=557058%3A27610eaf-dfb9-46a8-bf59-799b4d56c29c"",
+                        ""accountId"": ""924aa932-bb6c-46e2-95fd-1f4a9633d779"",
+                        ""emailAddress"": ""email_address@gmail.com"",
+                        ""avatarUrls"": {
+                            ""48x48"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/48"",
+                            ""24x24"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/24"",
+                            ""16x16"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/16"",
+                            ""32x32"": ""https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/924aa932-bb6c-46e2-95fd-1f4a9633d779/7409a98c-95a9-4e5d-8dd9-e3bc1c3006aa/32""
+                        },
+                        ""displayName"": ""Bob Smith"",
+                        ""active"": true,
+                        ""timeZone"": ""Europe/London"",
+                        ""accountType"": ""atlassian""
+                    },
+                    ""created"": ""2022-12-30T22:15:56.744+0000"",
+                    ""updated"": ""2022-12-30T22:15:56.744+0000"",
+                    ""jsdPublic"": true
+                }
+            ],
+            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/issue/10063/comment"",
+            ""maxResults"": 3,
+            ""total"": 3,
+            ""startAt"": 0
+        },
+        ""issuelinks"": [],
+        ""status"": {
+            ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/status/10006"",
+            ""description"": """",
+            ""iconUrl"": ""https://my-jira-domain.atlassian.net/"",
+            ""name"": ""To Do"",
+            ""id"": ""10006"",
+            ""statusCategory"": {
+                ""self"": ""https://my-jira-domain.atlassian.net/rest/api/3/statuscategory/2"",
+                ""id"": 2,
+                ""key"": ""new"",
+                ""colorName"": ""blue-gray"",
+                ""name"": ""To Do""
+            }
+        }
+    }
 }
 ";
     }

@@ -20,6 +20,26 @@ public class JiraIssueFields
     [JsonPropertyName("issuelinks")]
     public List<JiraIssueLinks> IssueLinks { get; }
 
+    [JsonPropertyName("comment")]
+    public JiraCommentCollection Comments { get; set; }
+
+    [JsonConstructor]
+    public JiraIssueFields(
+        string summary,
+        JiraIssueParentEpic parentEpic,
+        JiraIssueType issueType,
+        JiraIssueStatus status,
+        List<JiraIssueLinks> issueLinks,
+        JiraCommentCollection comments)
+    {
+        Summary = summary;
+        ParentEpic = parentEpic;
+        IssueType = issueType;
+        Status = status;
+        IssueLinks = issueLinks;
+        Comments = comments;
+    }
+
     public JiraIssueFields(
         string summary,
         JiraIssueParentEpic parentEpic,
@@ -32,5 +52,6 @@ public class JiraIssueFields
         IssueType = issueType;
         Status = status;
         IssueLinks = issueLinks;
+        Comments = new JiraCommentCollection();
     }
 }

@@ -1,8 +1,9 @@
 ﻿using HttpWrapper;
-using JiraDataFetcher;
 using JiraDataFetcher.DTO;
 using JiraDataFetcher.DTO.SearchResults;
 using System.Text.Json;
+
+namespace JiraDataFetcher;
 
 public class DataFetcher : IDataFetcher
 {
@@ -23,7 +24,7 @@ public class DataFetcher : IDataFetcher
     {
         var response = await _httpWrapper.GetWithBasicAuthentication(
             $"https://{_jiraDomain}.atlassian.net",
-            $"/rest/api/3/issue/{key}?fields=key,summary,issuetype,parent,issuelinks,status",
+            $"/rest/api/3/issue/{key}?fields=key,summary,issuetype,parent,issuelinks,status,comment",
             _username,
             _password);
 
