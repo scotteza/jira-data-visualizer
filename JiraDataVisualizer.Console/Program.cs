@@ -5,8 +5,10 @@ namespace JiraDataVisualizer.Console;
 
 internal class Program
 {
-    static async Task Main(string[] args)
+    private static async Task Main(string[] args)
     {
+        var pause = args.Length > 0;
+
         var fileLines = await File.ReadAllLinesAsync(@"../../../../Token.txt");
         var jiraDomain = fileLines[0];
         var username = fileLines[1];
@@ -23,12 +25,14 @@ internal class Program
         for (var i = 4; i < fileLines.Length; i++)
         {
             var jqlSearchString = fileLines[i];
-            if (jqlSearchString.StartsWith("#"))
-            {
-                continue;
-            }
+            if (jqlSearchString.StartsWith("#")) continue;
+            System.Console.WriteLine($"Executing JQL search and print for string JQL query: {jqlSearchString}");
             await visualizer.Visualize(jqlSearchString);
-            Thread.Sleep(2000);
+            System.Console.WriteLine("Visualisation complete");
+            if (pause)
+            {
+                Thread.Sleep(2000);
+            }
         }
     }
 }
