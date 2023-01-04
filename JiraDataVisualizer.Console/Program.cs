@@ -22,10 +22,18 @@ internal class Program
 
         var visualizer = new Visualizer(dataFetcher, dataPainter);
 
+        var previousLine = "";
+        
         for (var i = 4; i < fileLines.Length; i++)
         {
             var jqlSearchString = fileLines[i];
-            if (jqlSearchString.StartsWith("#")) continue;
+            if (jqlSearchString.StartsWith("#"))
+            {
+                previousLine = jqlSearchString;
+                continue;
+            }
+            System.Console.WriteLine();
+            System.Console.WriteLine(previousLine);
             System.Console.WriteLine($"Executing JQL search and print for string JQL query: {jqlSearchString}");
             await visualizer.Visualize(jqlSearchString);
             System.Console.WriteLine("Visualisation complete");
@@ -33,6 +41,9 @@ internal class Program
             {
                 Thread.Sleep(2000);
             }
+            previousLine = jqlSearchString;
         }
+        
+        System.Console.WriteLine();
     }
 }
